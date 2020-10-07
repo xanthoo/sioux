@@ -9,4 +9,8 @@ public class MainController {
         appointmentController = new AppointmentController();
     }
 
+    private void getAllAppointments(){
+
+    }
+
 }
