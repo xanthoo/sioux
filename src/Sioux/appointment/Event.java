@@ -9,7 +9,16 @@ public class Event {
     private int id;
     private LocalDate start;
     private LocalDate end;
-        //private List<CustomerDTO> customers;
+    private String visitor;
+
+
+    public Event(String subject, int id, LocalDate start, LocalDate end, String visitor) {
+        this.subject = subject;
+        this.id = id;
+        this.start = start;
+        this.end = end;
+        this.visitor = visitor;
+    }
 
     public String getSubject() {
         return subject;
@@ -43,11 +52,24 @@ public class Event {
         this.end = end;
     }
 
-        /*public List<CustomerDTO> getCustomers() {
+    public String getVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(String visitor) {
+        this.visitor = visitor;
+    }
+
+    /*public List<CustomerDTO> getCustomers() {
             return customers;
         }
 
         public void setCustomers(List<CustomerDTO> customers) {
             this.customers = customers;
         }*/
+
+    @Override
+    public String toString() {
+        return visitor +  " | " + subject + " |" + start;
+    }
 }
