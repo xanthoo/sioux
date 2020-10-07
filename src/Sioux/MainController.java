@@ -87,5 +87,9 @@ public class MainController {
                 lvAllAppointments.getItems().add(e);
             }
         }
+        else{
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            getAllAppointments();
+        }
     }
 }
