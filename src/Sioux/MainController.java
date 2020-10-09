@@ -19,13 +19,18 @@ public class MainController {
 
     //FXML vars
     @FXML
-    private ListView lvAllAppointments;
+    private ListView<Event> lvAllAppointments;
     @FXML
     private TextField tfVisitorName;
     @FXML
     private DatePicker dpAppointmentDate;
     @FXML
     private TextField tfNotes;
+    @FXML
+    private TextField tfSearchAppointments;
+
+    @FXML
+    private DatePicker dpDateSearch;
 
     //FXML vars visitor page
     @FXML
@@ -69,11 +74,49 @@ public class MainController {
     }
 
     public void viewSelectedAppointment(){
-            Event selectedEvent = (Event) lvAllAppointments.getSelectionModel().getSelectedItem();
+            Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
             appointmentController.getEventById(selectedEvent.getId());
             tfVisitorName.setText(selectedEvent.getVisitor());
             dpAppointmentDate.setValue(selectedEvent.getStart());
             tfNotes.setText(selectedEvent.getSubject());
+    }
+
+    public void saveAppointment(){
+        Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
+        selectedEvent.setVisitor(tfVisitorName.getText());
+        selectedEvent.setSubject(tfNotes.getText());
+        selectedEvent.setStart(dpAppointmentDate.getValue());
+        appointmentController.editEvent(selectedEvent);
+        lvAllAppointments.refresh();
+    }
+
+    public void searchForAppointment(){
+        List<Event> filteredList;
+        if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() == null){
+            filteredList = appointmentController.searchForEventString(tfSearchAppointments.getText());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            for (Event e : filteredList){
+                lvAllAppointments.getItems().add(e);
+            }
+        }
+        else if (tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
+            filteredList = appointmentController.searchForEventDate(dpDateSearch.getValue());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            for (Event e: filteredList){
+                lvAllAppointments.getItems().add(e);
+            }
+        }
+        else if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
+            filteredList = appointmentController.searchEventStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            for (Event e: filteredList){
+                lvAllAppointments.getItems().add(e);
+            }
+        }
+        else{
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            getAllAppointments();
+        }
     }
 
     private void getAllVisitors(){
