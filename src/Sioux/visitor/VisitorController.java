@@ -25,16 +25,15 @@ public class VisitorController {
         }
         return null;
     }
-    public void updateVisitor(int id, String name, String licenseplateNumber, String notes, String phoneNumber){
-        Visitor visitor = getVisitorByID(id);
-        visitor.setName(name);
-        visitor.setLicensePlateNumber(licenseplateNumber);
-        visitor.setNotes(notes);
-        visitor.setPhoneNumber(phoneNumber);
+    public void updateVisitor(Visitor updatedVisitor){
+        Visitor visitor = getVisitorByID(updatedVisitor.getVisitorID());
+        visitor.setName(updatedVisitor.getName());
+        visitor.setLicensePlateNumber(updatedVisitor.getLicensePlateNumber());
+        visitor.setPhoneNumber(updatedVisitor.getPhoneNumber());
+        visitor.setNotes(updatedVisitor.getNotes());
     }
 
-    public Visitor addVisitor(String name, String licenseplateNumber, String notes, String phoneNumber){
-        Visitor newVisitor = new Visitor(visitorList.toArray().length+1, name, licenseplateNumber, phoneNumber, notes);
+    public Visitor addVisitor(Visitor newVisitor){
         visitorList.add(newVisitor);
         return newVisitor;
     }

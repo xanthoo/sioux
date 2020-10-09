@@ -103,20 +103,13 @@ public class MainController {
         }
     }
     public void saveVisitorDetails(){
-        String newVisitorName = tfNameVisitor.getText();
-        String newLicenseplateNumber = tfLicenseplateNumber.getText();
-        String newVisitorNotes = tfVisitorNotes.getText();
-        String newPhoneNumber = tfPhoneNumber.getText();
-        visitorController.updateVisitor(selectedVisitor.getVisitorID(), newVisitorName, newLicenseplateNumber, newVisitorNotes, newPhoneNumber);
+        visitorController.updateVisitor(new Visitor(selectedVisitor.getVisitorID(), tfNameVisitor.getText(), tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText()));
         lvAllVisitors.refresh();
     }
     public void addVisitor(){
         String newVisitorName = tfNameVisitor.getText();
-        String newLicenseplateNumber = tfLicenseplateNumber.getText();
-        String newVisitorNotes = tfVisitorNotes.getText();
-        String newPhoneNumber = tfPhoneNumber.getText();
         if(!newVisitorName.equals("")){
-            lvAllVisitors.getItems().add(visitorController.addVisitor(newVisitorName, newLicenseplateNumber, newVisitorNotes, newPhoneNumber));
+            lvAllVisitors.getItems().add(visitorController.addVisitor(new Visitor(visitorList.toArray().length+1, newVisitorName, tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText())));
             lvAllVisitors.refresh();
         }
     }
