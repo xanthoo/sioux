@@ -7,6 +7,7 @@ import Sioux.visitor.VisitorController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,13 +158,17 @@ public class MainController {
         }
     }
     public void deleteVisitor(){
-        Visitor visitorToDelete = visitorController.deleteVisitor(selectedVisitor.getVisitorID());
-        if(visitorToDelete != null){
-            lvAllVisitors.getItems().remove(visitorToDelete);
-            visitorController.getVisitorList().remove(visitorToDelete);
-            clearInfo();
+        int opt = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this user?", "Delete", JOptionPane.YES_NO_OPTION);
+        if(opt == 0){
+            Visitor visitorToDelete = visitorController.deleteVisitor(selectedVisitor.getVisitorID());
+            if(visitorToDelete != null){
+                lvAllVisitors.getItems().remove(visitorToDelete);
+                visitorController.getVisitorList().remove(visitorToDelete);
+                clearInfo();
+            }
+            lvAllVisitors.refresh();
         }
-        lvAllVisitors.refresh();
+
     }
     public void searchVisitorByName(){
         lvAllVisitors.getItems().clear();
