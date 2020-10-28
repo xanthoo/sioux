@@ -34,7 +34,7 @@
                         <Button fx:id="btnDeleteVisitor" layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onMouseClicked="#deleteVisitor" prefHeight="25.0" prefWidth="86.0" text="Delete visitor" />
                         <TextField fx:id="tfPhoneNumber" layoutX="300.0" layoutY="117.0" />
                         <Label layoutX="220.0" layoutY="119.0" text="Phone number" />
-                        <ListView fx:id="lvVisitorAppointments" layoutX="289.0" layoutY="230.0" prefHeight="133.0" prefWidth="190.0" />
+                        <ListView fx:id="lvVisitorAppointments" layoutX="298.0" layoutY="228.0" prefHeight="133.0" prefWidth="190.0" />
                      </children>
                   </AnchorPane>
                </children></AnchorPane>
@@ -57,6 +57,7 @@
                   <Button fx:id="btnSaveAppointment" layoutX="373.0" layoutY="333.0" mnemonicParsing="false" onMouseClicked="#saveAppointment" text="Create" />
                   <Button fx:id="btnCancelAppointment" layoutX="497.0" layoutY="333.0" mnemonicParsing="false" text="Cancel" />
                   <DatePicker fx:id="dpDateSearch" layoutX="244.0" layoutY="11.0" prefHeight="13.0" prefWidth="212.0" />
+                  <ListView fx:id="lvAllAppointments" layoutX="14.0" layoutY="43.0" prefHeight="321.0" prefWidth="200.0" />
                </children></AnchorPane>
       </content>
     </Tab>
