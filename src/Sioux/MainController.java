@@ -5,8 +5,15 @@ import Sioux.appointment.Event;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,6 +155,39 @@ public class MainController {
     public void saveVisitorDetails(){
         visitorController.updateVisitor(new Visitor(selectedVisitor.getVisitorID(), tfNameVisitor.getText(), tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText()));
         lvAllVisitors.refresh();
+    }
+
+    public void EditVisitor(){
+        if(selectedVisitor != null){
+            try {
+                //Creating the loader
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditVisitorView.fxml"));
+                Parent root1 = fxmlLoader.load();
+                //Adding the controller to the view
+                EditVisitorController editVisitorController = fxmlLoader.getController();
+                //Initializing the controller
+                editVisitorController.initData(selectedVisitor, visitorController);
+                //Making the stage
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.DECORATED);
+                stage.setTitle("Edit visitor");
+                stage.setScene(new Scene(root1));
+                stage.showAndWait();
+                lvAllVisitors.refresh();
+                viewSelectedVisitor();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            //No visitor selected
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("There is no visitor selected.");
+            alert.setContentText("Please select a visitor.");
+            alert.showAndWait();
+        }
     }
     public void addVisitor(){
         String newVisitorName = tfNameVisitor.getText();
