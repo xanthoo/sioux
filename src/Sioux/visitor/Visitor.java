@@ -58,6 +58,6 @@ public class Visitor {
 
     @Override
     public String toString(){
-        return "Visitor: "+name;
+        return name;
     }
 }
