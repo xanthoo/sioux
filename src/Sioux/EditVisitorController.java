@@ -61,6 +61,7 @@ public class EditVisitorController {
     public void cancelEditing(){
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
+        
     }
     private boolean checkEnteredDataCorrect(){
         if(!nameVisitor.equals("") && !licenseplateNumber.equals("") && !phoneNumber.equals("") && !visitorNotes.equals("")){

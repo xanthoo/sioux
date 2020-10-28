@@ -173,7 +173,9 @@ public class MainController {
                 stage.initStyle(StageStyle.DECORATED);
                 stage.setTitle("Edit visitor");
                 stage.setScene(new Scene(root1));
-                stage.show();
+                stage.showAndWait();
+                lvAllVisitors.refresh();
+                viewSelectedVisitor();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -186,7 +188,6 @@ public class MainController {
             alert.setContentText("Please select a visitor.");
             alert.showAndWait();
         }
-
     }
     public void addVisitor(){
         String newVisitorName = tfNameVisitor.getText();
