@@ -28,7 +28,7 @@ public class MainController {
 
     //FXML vars
     @FXML
-    private ListView<Event> lvVisitorAppointments;
+    private ListView<Event> lvAllAppointments;
     @FXML
     private TextField tfVisitorName;
     @FXML
@@ -37,13 +37,13 @@ public class MainController {
     private TextField tfNotes;
     @FXML
     private TextField tfSearchAppointments;
-
+    
     @FXML
     private DatePicker dpDateSearch;
 
     //FXML vars visitor page
     @FXML
-    private ListView lvAllVisitors;
+    private ListView<Visitor> lvAllVisitors;
     @FXML
     private TextField tfNameVisitor;
     @FXML
@@ -58,6 +58,8 @@ public class MainController {
     Button btnSaveVisitor;
     @FXML
     Button btnAddVisitor;
+    @FXML
+    ListView<Event> lvVisitorAppointments;
 
 
     public MainController(){
@@ -68,7 +70,7 @@ public class MainController {
 
     public void initialize() {
         getAllAppointments();
-        lvVisitorAppointments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        lvAllAppointments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         //Visitor page
         getAllVisitors();
@@ -79,54 +81,58 @@ public class MainController {
     private void getAllAppointments(){
         eventList = appointmentController.getEvents();
         for (Event event : eventList) {
-            lvVisitorAppointments.getItems().add(event);
+            lvAllAppointments.getItems().add(event);
         }
     }
 
     public void viewSelectedAppointment(){
-            Event selectedEvent = lvVisitorAppointments.getSelectionModel().getSelectedItem();
+            Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
             appointmentController.getEventById(selectedEvent.getId());
-            tfVisitorName.setText(selectedEvent.getVisitor());
+            tfVisitorName.setText(selectedEvent.getVisitor().getName());
             dpAppointmentDate.setValue(selectedEvent.getStart());
             tfNotes.setText(selectedEvent.getSubject());
     }
 
     public void saveAppointment(){
-        Event selectedEvent = lvVisitorAppointments.getSelectionModel().getSelectedItem();
-        selectedEvent.setVisitor(tfVisitorName.getText());
+        Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
+        selectedEvent.setVisitor(visitorController.getVisitorByID(selectedEvent.getVisitor().getVisitorID()));
         selectedEvent.setSubject(tfNotes.getText());
         selectedEvent.setStart(dpAppointmentDate.getValue());
         appointmentController.editEvent(selectedEvent);
-        lvVisitorAppointments.refresh();
+        lvAllAppointments.refresh();
     }
 
     public void searchForAppointment(){
         List<Event> filteredList;
         if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() == null){
             filteredList = appointmentController.searchForEventString(tfSearchAppointments.getText());
-            lvVisitorAppointments.getItems().removeAll(lvVisitorAppointments.getItems());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             for (Event e : filteredList){
-                lvVisitorAppointments.getItems().add(e);
+                lvAllAppointments.getItems().add(e);
             }
         }
         else if (tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
             filteredList = appointmentController.searchForEventDate(dpDateSearch.getValue());
-            lvVisitorAppointments.getItems().removeAll(lvVisitorAppointments.getItems());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             for (Event e: filteredList){
-                lvVisitorAppointments.getItems().add(e);
+                lvAllAppointments.getItems().add(e);
             }
         }
         else if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
             filteredList = appointmentController.searchEventStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue());
-            lvVisitorAppointments.getItems().removeAll(lvVisitorAppointments.getItems());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             for (Event e: filteredList){
-                lvVisitorAppointments.getItems().add(e);
+                lvAllAppointments.getItems().add(e);
             }
         }
         else{
-            lvVisitorAppointments.getItems().removeAll(lvVisitorAppointments.getItems());
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             getAllAppointments();
         }
+    }
+
+    public List<Event> searchAppointmentVisitorID(int id){
+       return appointmentController.searchEventsVisitorID(id);
     }
 
     private void getAllVisitors(){
@@ -136,7 +142,7 @@ public class MainController {
         }
     }
     public void viewSelectedVisitor(){
-        selectedVisitor = (Visitor) lvAllVisitors.getSelectionModel().getSelectedItem();
+        selectedVisitor = lvAllVisitors.getSelectionModel().getSelectedItem();
         if(selectedVisitor == null){
             btnSaveVisitor.setDisable(true);
             btnAddVisitor.setDisable(false);
@@ -153,12 +159,15 @@ public class MainController {
             tfLicenseplateNumber.setText(selectedVisitor.getLicensePlateNumber());
             tfVisitorNotes.setText(selectedVisitor.getNotes());
             tfPhoneNumber.setText(selectedVisitor.getPhoneNumber());
+            lvVisitorAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            lvVisitorAppointments.getItems().addAll(searchAppointmentVisitorID(selectedVisitor.getVisitorID()));
+
         }
     }
-    public void saveVisitorDetails(){
+  /*  public void saveVisitorDetails(){
         visitorController.updateVisitor(new Visitor(selectedVisitor.getVisitorID(), tfNameVisitor.getText(), tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText()));
         lvAllVisitors.refresh();
-    }
+    } */
 
     public void EditVisitor(){
         if(selectedVisitor != null){
@@ -239,5 +248,6 @@ public class MainController {
         tfLicenseplateNumber.setText("");
         tfVisitorNotes.setText("");
         tfPhoneNumber.setText("");
+        lvVisitorAppointments.getItems().removeAll(lvAllAppointments.getItems());
     }
 }
