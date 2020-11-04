@@ -11,7 +11,8 @@ public class VisitorController {
     public VisitorController(){
          visitorList = new ArrayList<>();
          visitorList.add(new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard."));
-         visitorList.add(new Visitor(1, "Jan", "456-def-78", "0690123456", "Brings his assistant with him."));
+         visitorList.add(new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him."));
+         visitorList.add(new Visitor(3, "Jan", "456-def-78", "0690123456", "Brings his assistant with him."));
     }
 
     public List<Visitor> getVisitorList() {

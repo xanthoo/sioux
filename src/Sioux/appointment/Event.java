@@ -1,5 +1,7 @@
 package Sioux.appointment;
 
+import Sioux.visitor.Visitor;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,10 +11,10 @@ public class Event {
     private int id;
     private LocalDate start;
     private LocalDate end;
-    private String visitor;
+    private Visitor visitor;
 
 
-    public Event(String subject, int id, LocalDate start, LocalDate end, String visitor) {
+    public Event(String subject, int id, LocalDate start, LocalDate end, Visitor visitor) {
         this.subject = subject;
         this.id = id;
         this.start = start;
@@ -52,11 +54,11 @@ public class Event {
         this.end = end;
     }
 
-    public String getVisitor() {
+    public Visitor getVisitor() {
         return visitor;
     }
 
-    public void setVisitor(String visitor) {
+    public void setVisitor(Visitor visitor) {
         this.visitor = visitor;
     }
 
