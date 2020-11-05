@@ -1,14 +1,27 @@
 package Sioux.visitor;
 
+import com.fasterxml.jackson.annotation.*;
+
 public class Visitor {
 
+    @JsonProperty("id")
     private int visitorID;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("licensePlate")
     private String licensePlateNumber;
+
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
+
+    @JsonProperty("mail")
     private String notes;
 
-    public Visitor(int visitorID, String name, String licensePlateNumber, String phoneNumber, String notes){
+    public  Visitor(){}
+
+    public Visitor(int visitorID, String name, String licensePlateNumber, String phoneNumber, String notes) {
         this.visitorID = visitorID;
         this.name = name;
         this.licensePlateNumber = licensePlateNumber;
