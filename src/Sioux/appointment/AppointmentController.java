@@ -72,6 +72,10 @@ public class AppointmentController {
         return filteredList;
     } */
 
+    public void deleteAppointment(Appointment appointment){
+        repository.DeleteAppointmentById(appointment.getId());
+    }
+
     public List<Appointment> searchEventsVisitorID(int id) {
         return repository.searchEventsVisitorID(id);
     }

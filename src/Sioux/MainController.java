@@ -104,11 +104,13 @@ public class MainController {
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
+            btnCancel.setText("Clear");
         } else
         {
             clearInfo();
             btnEditAppointment.setDisable(true);
             btnAddAppointment.setDisable(false);
+            btnCancel.setText("Cancel");
         }
     }
 
@@ -161,7 +163,7 @@ public class MainController {
             alert.setContentText("Please fill in all information correctly.");
             alert.showAndWait();
         }
-        Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
+        /*Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
         //selectedAppointment.setVisitor(tfVisitorName.getText());
         selectedAppointment.setSubject(tfNotes.getText());
         selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
@@ -172,6 +174,19 @@ public class MainController {
         selectedEvent.setStart(dpAppointmentDate.getValue());
         appointmentController.editEvent(selectedEvent); */
         lvAllAppointments.refresh();
+    }
+    public void deleteAppointment(){
+        try{
+            appointmentList.remove(selectedAppointment);
+            lvAllAppointments.getItems().remove(selectedAppointment);
+            lvAllAppointments.refresh();
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("There is no appointment selected.");
+            alert.setContentText("Please select an appointment.");
+            alert.showAndWait();
+        }
     }
 
     public void searchForAppointment(){
@@ -330,5 +345,7 @@ public class MainController {
         dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
+        lvAllAppointments.getSelectionModel().clearSelection();
+        btnCancel.setText("Cancel");
     }
 }
