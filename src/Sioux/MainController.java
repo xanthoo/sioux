@@ -2,7 +2,6 @@ package Sioux;
 
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
-import Sioux.appointment.AppointmentNEED_FIX;
 import Sioux.appointment.AppointmentMemoryRepository;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
@@ -17,10 +16,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +28,7 @@ public class MainController {
     private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
     Visitor selectedVisitor;
+    Appointment selectedAppointment;
 
     //FXML vars
     @FXML
@@ -46,6 +44,12 @@ public class MainController {
 
     @FXML
     private DatePicker dpDateSearch;
+    @FXML
+    private Button btnEditAppointment;
+    @FXML
+    private Button btnCancel;
+    @FXML
+    private Button btnAddAppointment;
 
     //FXML vars visitor page
     @FXML
@@ -61,12 +65,11 @@ public class MainController {
     @FXML
     private TextField tfSearchVisitor;
     @FXML
-    Button btnSaveVisitor;
+    Button btnEditVisitor;
     @FXML
     Button btnAddVisitor;
     @FXML
     ListView<Appointment> lvVisitorAppointments;
-
 
     public MainController(){
         appointmentList = new ArrayList<>();
@@ -81,7 +84,8 @@ public class MainController {
         //Visitor page
         getAllVisitors();
         lvAllVisitors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        btnSaveVisitor.setDisable(true);
+        btnEditVisitor.setDisable(true);
+        btnEditAppointment.setDisable(true);
     }
 
     private void getAllAppointments(){
@@ -92,16 +96,55 @@ public class MainController {
     }
 
     public void viewSelectedAppointment(){
-        Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
+        selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
+        if (selectedAppointment != null){
             appointmentController.getAppointmentById(selectedAppointment.getId());
             tfVisitorName.setText(selectedAppointment.getVisitor().getName());
             dpAppointmentDate.setValue(selectedAppointment.getStart());
             tfNotes.setText(selectedAppointment.getSubject());
-           /* Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
-            appointmentController.getEventById(selectedEvent.getId());
-            tfVisitorName.setText(selectedEvent.getVisitor().getName());
-            dpAppointmentDate.setValue(selectedEvent.getStart());
-            tfNotes.setText(selectedEvent.getSubject());*/
+            btnEditAppointment.setDisable(false);
+            btnAddAppointment.setDisable(true);
+        } else
+        {
+            clearInfo();
+            btnEditAppointment.setDisable(true);
+            btnAddAppointment.setDisable(false);
+        }
+    }
+
+    public void editAppointment(){
+        //Code for editing screen for the appointment
+        if(selectedAppointment != null){
+            try {
+                //Creating the loader
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+                Parent root1 = fxmlLoader.load();
+                //Adding the controller to the view
+                EditAppointmentController editAppointmentController = fxmlLoader.getController();
+                //Initializing the controller
+                editAppointmentController.initData(selectedAppointment, appointmentController);
+                //Making the stage
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.DECORATED);
+                stage.setTitle("Edit appointment");
+                stage.setScene(new Scene(root1));
+                stage.showAndWait();
+                lvAllAppointments.refresh();
+                viewSelectedAppointment();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            //No appointment selected
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("There is no appointment selected.");
+            alert.setContentText("Please select an appointment.");
+            alert.showAndWait();
+        }
+
     }
 
     public void saveAppointment(){
@@ -173,7 +216,7 @@ public class MainController {
     public void viewSelectedVisitor(){
         selectedVisitor = lvAllVisitors.getSelectionModel().getSelectedItem();
         if(selectedVisitor == null){
-            btnSaveVisitor.setDisable(true);
+            btnEditVisitor.setDisable(true);
             btnAddVisitor.setDisable(false);
             tfNameVisitor.setText("");
             tfLicenseplateNumber.setText("");
@@ -181,7 +224,7 @@ public class MainController {
             tfPhoneNumber.setText("");
         }
         else {
-            btnSaveVisitor.setDisable(false);
+            btnEditVisitor.setDisable(false);
             btnAddVisitor.setDisable(true);
             visitorController.getVisitorByID(selectedVisitor.getVisitorID());
             tfNameVisitor.setText(selectedVisitor.getName());
@@ -270,7 +313,8 @@ public class MainController {
         lvAllVisitors.refresh();
     }
     public void clearInfo(){
-        btnSaveVisitor.setDisable(true);
+        //Visitor page
+        btnEditVisitor.setDisable(true);
         btnAddVisitor.setDisable(false);
         selectedVisitor =null;
         tfNameVisitor.setText("");
@@ -278,5 +322,13 @@ public class MainController {
         tfVisitorNotes.setText("");
         tfPhoneNumber.setText("");
         lvVisitorAppointments.getItems().removeAll(lvAllAppointments.getItems());
+
+        //Appointment page
+        selectedAppointment = null;
+        tfVisitorName.setText("");
+        tfNotes.setText("");
+        dpAppointmentDate.setValue(null);
+        btnEditAppointment.setDisable(true);
+        btnAddAppointment.setDisable(false);
     }
 }
