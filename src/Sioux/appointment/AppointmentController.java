@@ -33,6 +33,9 @@ public class AppointmentController {
         return repository.GetAppointmentsByDate(searchDate);
     }
 
+    public void createAppointment(Appointment appointment){
+         repository.CreateNewAppointment(appointment);
+    }
 
     /* public List<Event> searchForEventString(String searchTerm){
         List<Event> filteredList= new ArrayList<>();

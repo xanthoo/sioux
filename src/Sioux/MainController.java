@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -93,7 +94,7 @@ public class MainController {
     public void viewSelectedAppointment(){
         Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
             appointmentController.getAppointmentById(selectedAppointment.getId());
-            //tfVisitorName.setText(selectedAppointment.getVisitor());
+            tfVisitorName.setText(selectedAppointment.getVisitor().getName());
             dpAppointmentDate.setValue(selectedAppointment.getStart());
             tfNotes.setText(selectedAppointment.getSubject());
            /* Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
@@ -104,6 +105,19 @@ public class MainController {
     }
 
     public void saveAppointment(){
+        if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
+            appointmentController.createAppointment(new Appointment(tfNotes.getText(), appointmentList.size(), dpAppointmentDate.getValue() , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0)));
+            lvAllAppointments.getItems().clear();
+            getAllAppointments();
+            lvAllAppointments.refresh();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Not all information is (correctly) provided.");
+            alert.setContentText("Please fill in all information correctly.");
+            alert.showAndWait();
+        }
         Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
         //selectedAppointment.setVisitor(tfVisitorName.getText());
         selectedAppointment.setSubject(tfNotes.getText());
