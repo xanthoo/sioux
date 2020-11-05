@@ -1,9 +1,12 @@
 package Sioux;
 
+import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
-import Sioux.appointment.Event;
+import Sioux.appointment.AppointmentNEED_FIX;
+import Sioux.appointment.AppointmentMemoryRepository;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
+import Sioux.visitor.VisitorMemoryRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +16,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,13 +27,13 @@ import java.util.Optional;
 public class MainController {
     private final AppointmentController appointmentController;
     private final VisitorController visitorController;
-    private List<Event> eventList;
+    private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
     Visitor selectedVisitor;
 
     //FXML vars
     @FXML
-    private ListView<Event> lvAllAppointments;
+    private ListView<Appointment> lvAllAppointments;
     @FXML
     private TextField tfVisitorName;
     @FXML
@@ -37,7 +42,7 @@ public class MainController {
     private TextField tfNotes;
     @FXML
     private TextField tfSearchAppointments;
-    
+
     @FXML
     private DatePicker dpDateSearch;
 
@@ -59,13 +64,13 @@ public class MainController {
     @FXML
     Button btnAddVisitor;
     @FXML
-    ListView<Event> lvVisitorAppointments;
+    ListView<Appointment> lvVisitorAppointments;
 
 
     public MainController(){
-        eventList = new ArrayList<>();
-        appointmentController = new AppointmentController();
-        visitorController = new VisitorController();
+        appointmentList = new ArrayList<>();
+        appointmentController = new AppointmentController(new AppointmentMemoryRepository());
+        visitorController = new VisitorController(new VisitorMemoryRepository());
     }
 
     public void initialize() {
@@ -79,49 +84,59 @@ public class MainController {
     }
 
     private void getAllAppointments(){
-        eventList = appointmentController.getEvents();
-        for (Event event : eventList) {
-            lvAllAppointments.getItems().add(event);
+        appointmentList = appointmentController.getAppointments();
+        for (Appointment appointment : appointmentList) {
+            lvAllAppointments.getItems().add(appointment);
         }
     }
 
     public void viewSelectedAppointment(){
-            Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
+        Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
+            appointmentController.getAppointmentById(selectedAppointment.getId());
+            //tfVisitorName.setText(selectedAppointment.getVisitor());
+            dpAppointmentDate.setValue(selectedAppointment.getStart());
+            tfNotes.setText(selectedAppointment.getSubject());
+           /* Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
             appointmentController.getEventById(selectedEvent.getId());
             tfVisitorName.setText(selectedEvent.getVisitor().getName());
             dpAppointmentDate.setValue(selectedEvent.getStart());
-            tfNotes.setText(selectedEvent.getSubject());
+            tfNotes.setText(selectedEvent.getSubject());*/
     }
 
     public void saveAppointment(){
-        Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
+        Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
+        //selectedAppointment.setVisitor(tfVisitorName.getText());
+        selectedAppointment.setSubject(tfNotes.getText());
+        selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
+        appointmentController.updateAppointment(selectedAppointment);
+        /*Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
         selectedEvent.setVisitor(visitorController.getVisitorByID(selectedEvent.getVisitor().getVisitorID()));
         selectedEvent.setSubject(tfNotes.getText());
         selectedEvent.setStart(dpAppointmentDate.getValue());
-        appointmentController.editEvent(selectedEvent);
+        appointmentController.editEvent(selectedEvent); */
         lvAllAppointments.refresh();
     }
 
     public void searchForAppointment(){
-        List<Event> filteredList;
+        List<Appointment> filteredList;
         if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() == null){
-            filteredList = appointmentController.searchForEventString(tfSearchAppointments.getText());
+            filteredList = appointmentController.searchForAppointmentString(tfSearchAppointments.getText());
             lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
-            for (Event e : filteredList){
+            for (Appointment e : filteredList){
                 lvAllAppointments.getItems().add(e);
             }
         }
         else if (tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
-            filteredList = appointmentController.searchForEventDate(dpDateSearch.getValue());
+            filteredList = appointmentController.searchForAppointmentByDate(dpDateSearch.getValue());
             lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
-            for (Event e: filteredList){
+            for (Appointment e: filteredList){
                 lvAllAppointments.getItems().add(e);
             }
         }
         else if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
-            filteredList = appointmentController.searchEventStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue());
+            filteredList = appointmentController.searchAppointmentStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue());
             lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
-            for (Event e: filteredList){
+            for (Appointment e: filteredList){
                 lvAllAppointments.getItems().add(e);
             }
         }
@@ -131,7 +146,7 @@ public class MainController {
         }
     }
 
-    public List<Event> searchAppointmentVisitorID(int id){
+    public List<Appointment> searchAppointmentVisitorID(int id){
        return appointmentController.searchEventsVisitorID(id);
     }
 

@@ -5,7 +5,7 @@ import Sioux.visitor.Visitor;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Event {
+public class Appointment {
 
     private  String subject;
     private int id;
@@ -14,7 +14,7 @@ public class Event {
     private Visitor visitor;
 
 
-    public Event(String subject, int id, LocalDate start, LocalDate end, Visitor visitor) {
+    public Appointment(String subject, int id, LocalDate start, LocalDate end, Visitor visitor) {
         this.subject = subject;
         this.id = id;
         this.start = start;

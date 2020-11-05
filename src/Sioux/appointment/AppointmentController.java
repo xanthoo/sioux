@@ -1,57 +1,53 @@
 package Sioux.appointment;
-import Sioux.visitor.Visitor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AppointmentController {
     /* This class will control the appointment section */
 
-    public List<Event> eventList;
+    IAppointmentRepository repository;
 
-    public AppointmentController(){
-        eventList = new ArrayList<>();
-        eventList.add(new Event("Test event", 1, LocalDate.now(), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        eventList.add(new Event("Test event 2", 2, LocalDate.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        eventList.add(new Event("Test event 2", 3, LocalDate.now(), LocalDate.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
+     public AppointmentController(IAppointmentRepository respository){
+        this.repository = respository;
     }
 
-    public List<Event> getEvents(){
-        return eventList;
+    public List<Appointment> getAppointments() {
+        return repository.getAllAppointments();
     }
 
-    public Event getEventById(int id){
-        for (Event e: eventList) {
-            if (e.getId() == id)
-            return e;
-        }
-        return null;
+
+    public Appointment getAppointmentById(int id){
+        return repository.GetAppointmentById(id);
     }
 
-    public void editEvent(Event event){
-     for (Event e : eventList){
-         if (e.getId() == event.getId()){
-             e.setStart(event.getStart());
-             e.setEnd(event.getEnd());
-             e.setSubject(event.getSubject());
-             e.setVisitor(event.getVisitor());
-             eventList.set(eventList.indexOf(e), e);
-         }
-     }
+    public void updateAppointment(Appointment appointment){
+        repository.UpdateAppointmentById(appointment);
     }
 
-    public List<Event> searchForEventString(String searchTerm){
+    public List<Appointment> searchForAppointmentString(String searchTerm){
+        return repository.searchForAppointmentString(searchTerm);
+    }
+
+    public List<Appointment> searchForAppointmentByDate(LocalDate searchDate) {
+        return repository.GetAppointmentsByDate(searchDate);
+    }
+
+
+    /* public List<Event> searchForEventString(String searchTerm){
         List<Event> filteredList= new ArrayList<>();
         for (Event e : eventList)
             if (e.getSubject().contains(searchTerm) || e.getVisitor().getName().contains(searchTerm)){
                 filteredList.add(e);
             }
         return filteredList;
-    }
+    } */
 
-    public List<Event> searchForEventDate(LocalDate searchDate){
+    public List<Appointment> searchAppointmentStringDate(String term, LocalDate searchDate) {
+        return repository.searchAppointmentStringDate(term, searchDate);
+
+    }
+      /*  public List<Event> searchForEventDate(LocalDate searchDate){
         List<Event> filteredList= new ArrayList<>();
         for (Event e : eventList){
             if (e.getStart().equals(searchDate)){
@@ -59,9 +55,9 @@ public class AppointmentController {
             }
         }
         return filteredList;
-    }
+    } */
 
-    public List<Event> searchEventStringDate(String term, LocalDate searchDate) {
+   /* public List<Event> searchEventStringDate(String term, LocalDate searchDate) {
         List<Event> filteredList = new ArrayList<>();
         for (Event e : eventList){
             if (e.getSubject().contains(term) || e.getVisitor().getName().contains(term)){
@@ -71,9 +67,9 @@ public class AppointmentController {
             }
         }
         return filteredList;
-    }
+    } */
 
-    public List<Event> searchEventsVisitorID(int id) {
-        return eventList.stream().filter(e -> e.getVisitor().getVisitorID() == id).collect(Collectors.toList());
+    public List<Appointment> searchEventsVisitorID(int id) {
+        return repository.searchEventsVisitorID(id);
     }
 }
