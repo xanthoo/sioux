@@ -1,0 +1,51 @@
+Index: .idea/ant.xml
+===================================================================
+--- .idea/ant.xml	(revision 40ac1133579b93c3583754574e3dc6d3ec4d2297)
++++ .idea/ant.xml	(revision 40ac1133579b93c3583754574e3dc6d3ec4d2297)
+@@ -1,7 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="AntConfiguration">
+-    <defaultAnt bundledAnt="true" />
+-  </component>
+-</project>
+-
+Index: .idea/libraries/lib.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/lib.xml	(date 1601473577070)
++++ .idea/libraries/lib.xml	(date 1601473577070)
+@@ -0,0 +1,13 @@
++<component name="libraryTable">
++  <library name="lib">
++    <CLASSES>
++      <root url="file://$PROJECT_DIR$/../../../../../../../../../../Progs/Java/openjfx-11.0.2/javafx-sdk-11.0.2/lib" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES>
++      <root url="file://$PROJECT_DIR$/../../../../../../../../../../Progs/Java/openjfx-11.0.2/javafx-sdk-11.0.2/lib" />
++    </SOURCES>
++    <jarDirectory url="file://$PROJECT_DIR$/../../../../../../../../../../Progs/Java/openjfx-11.0.2/javafx-sdk-11.0.2/lib" recursive="false" />
++    <jarDirectory url="file://$PROJECT_DIR$/../../../../../../../../../../Progs/Java/openjfx-11.0.2/javafx-sdk-11.0.2/lib" recursive="false" type="SOURCES" />
++  </library>
++</component>
+\ No newline at end of file
+Index: Sioux.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Sioux.iml	(revision 40ac1133579b93c3583754574e3dc6d3ec4d2297)
++++ Sioux.iml	(date 1601473577030)
+@@ -7,6 +7,6 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="library" name="lib" level="project" />
+   </component>
+-</module>
+-
++</module>
+\ No newline at end of file
