@@ -3,9 +3,6 @@ package Sioux;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
-import Sioux.parkingspot.ParkingSpot;
-import Sioux.parkingspot.ParkingSpotController;
-import Sioux.parkingspot.ParkingSpotMemoryRepository;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
 import Sioux.visitor.VisitorMemoryRepository;
@@ -28,7 +25,6 @@ import java.util.Optional;
 public class MainController {
     private final AppointmentController appointmentController;
     private final VisitorController visitorController;
-    private final ParkingSpotController parkingSpotController;
     private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
     Visitor selectedVisitor;
@@ -79,7 +75,6 @@ public class MainController {
         appointmentList = new ArrayList<>();
         appointmentController = new AppointmentController(new AppointmentMemoryRepository());
         visitorController = new VisitorController(new VisitorMemoryRepository());
-        parkingSpotController = new ParkingSpotController(new ParkingSpotMemoryRepository());
     }
 
     public void initialize() {
