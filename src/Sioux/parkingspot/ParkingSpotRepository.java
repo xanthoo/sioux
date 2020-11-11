@@ -1,6 +1,5 @@
 package Sioux.parkingspot;
 
-import Sioux.visitor.Visitor;
 import org.glassfish.jersey.client.ClientConfig;
 
 import javax.ws.rs.client.Client;
@@ -33,6 +32,9 @@ public class ParkingSpotRepository implements IParkingSpotRepository{
 
     @Override
     public ParkingSpot GetParkingSpotByNumber(int number) {
-        return null;
+        Response response = serviceTarget.path(Integer.toString(number))
+                .request().accept(MediaType.APPLICATION_JSON).get();
+        GenericType<ParkingSpot> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 }
