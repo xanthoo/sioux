@@ -3,6 +3,7 @@ package Sioux;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
+import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
 import Sioux.parkingspot.ParkingSpotMemoryRepository;
 import Sioux.visitor.Visitor;
@@ -28,6 +29,7 @@ public class MainController {
     private final ParkingSpotController parkingSpotController;
     private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
+    private List<ParkingSpot> parkingSpotList;
     Visitor selectedVisitor;
     Appointment selectedAppointment;
 
@@ -72,6 +74,12 @@ public class MainController {
     @FXML
     ListView<Appointment> lvVisitorAppointments;
 
+    //FXML vars parking spots page
+    @FXML
+    private ListView<ParkingSpot> lvAllParkingSpots;
+    @FXML
+    private RadioButton rbtnFreeSpots;
+
     public MainController(){
         appointmentList = new ArrayList<>();
         appointmentController = new AppointmentController(new AppointmentMemoryRepository());
@@ -80,6 +88,7 @@ public class MainController {
     }
 
     public void initialize() {
+        //appointment page
         getAllAppointments();
         lvAllAppointments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -88,6 +97,10 @@ public class MainController {
         lvAllVisitors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         btnEditVisitor.setDisable(true);
         btnEditAppointment.setDisable(true);
+
+        //Parking spots page
+        getAllParkingSpots();
+        lvAllParkingSpots.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     private void getAllAppointments(){
@@ -349,5 +362,23 @@ public class MainController {
         btnAddAppointment.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
+    }
+
+    public void getAllParkingSpots(){
+        ClearParkingSpotList();
+        parkingSpotList = parkingSpotController.GetAllParkingSpots();
+        for(var parkingSpot : parkingSpotList){
+            if(rbtnFreeSpots.isSelected()){
+                if(!parkingSpot.isOccupied()){
+                    lvAllParkingSpots.getItems().add(parkingSpot);
+                }
+            }else{
+                lvAllParkingSpots.getItems().add(parkingSpot);
+            }
+        }
+    }
+
+    private void ClearParkingSpotList(){
+        lvAllParkingSpots.getItems().clear();
     }
 }

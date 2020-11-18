@@ -20,10 +20,9 @@ public class ParkingSpot {
 
     @Override
     public String toString() {
-        return "Parkingspot{" +
-                "parkingspotNumber=" + number +
-                ", isOccupied=" + occupied +
-                '}';
+        String occupiedString = "free";
+        if(occupied) occupiedString = "taken";
+        return "spot: " + number + " | " + occupiedString;
     }
 
 }
