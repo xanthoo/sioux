@@ -50,6 +50,8 @@ public class MainController {
     private Button btnCancel;
     @FXML
     private Button btnAddAppointment;
+    @FXML
+    private Button btnDeleteAppointment;
 
     //FXML vars visitor page
     @FXML
@@ -86,6 +88,7 @@ public class MainController {
         lvAllVisitors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         btnEditVisitor.setDisable(true);
         btnEditAppointment.setDisable(true);
+        btnDeleteAppointment.setDisable(true);
     }
 
     private void getAllAppointments(){
@@ -104,6 +107,7 @@ public class MainController {
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
+            btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
         } else
         {
@@ -380,6 +384,7 @@ public class MainController {
         dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
+        btnDeleteAppointment.setDisable(true);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
