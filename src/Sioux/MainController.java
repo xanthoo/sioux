@@ -193,13 +193,6 @@ public class MainController {
                 clearInfo();
             }
         }
-        else{
-            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-            alert1.setTitle("Warning");
-            alert1.setHeaderText("There is no appointment selected.");
-            alert1.setContentText("Please select an appointment.");
-            alert1.showAndWait();
-        }
     }
 
     public void searchForAppointment(){
