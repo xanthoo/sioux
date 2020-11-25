@@ -9,7 +9,7 @@ public class sendSms {
 
     public static void main(String[] args){
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message = Message.creator(new com.twilio.type.PhoneNumber("+359 89 534 7218"),
+        Message message = Message.creator(new com.twilio.type.PhoneNumber("+32 483 99 93 01"),
                 new com.twilio.type.PhoneNumber("+13343447824"), "This is a test message app").create();
 
         System.out.println(message.getSid());

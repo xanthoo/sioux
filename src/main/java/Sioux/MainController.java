@@ -9,6 +9,7 @@ import Sioux.parkingspot.ParkingSpotMemoryRepository;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
 import Sioux.visitor.VisitorMemoryRepository;
+import com.twilio.rest.api.v2010.account.incomingphonenumber.Local;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,8 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
@@ -163,15 +166,20 @@ public class MainController {
             appointmentController.createAppointment(newAppointment);
             lvAllAppointments.getItems().clear();
             getAllAppointments();
-            lvAllAppointments.refresh();
-            while (true){
-                if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().format(formatter))==0){
-                    String[] arguments = new String[] {"123"};
-                    sendSms smsSender = new sendSms();
-                    smsSender.main(arguments);
-                    break;
+           // String var = (LocalDateTime.now().minusMinutes(5).format(formatter));
+            new Thread(new Runnable() {
+                public void run() {
+                    while (true){
+                        if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().minusMinutes(5).format(formatter))==0){
+                            String[] arguments = new String[] {"123"};
+                            sendSms smsSender = new sendSms();
+                            smsSender.main(arguments);
+                            break;
+                        }
+                    }
                 }
-            }
+            }).start();
+
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -181,8 +189,8 @@ public class MainController {
             alert.showAndWait();
         }
         /*Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
-        //selectedAppointment.setVisitor(tfVisitorName.getText());
         selectedAppointment.setSubject(tfNotes.getText());
+        //selectedAppointment.setVisitor(tfVisitorName.getText());
         selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
         appointmentController.updateAppointment(selectedAppointment);
         /*Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
