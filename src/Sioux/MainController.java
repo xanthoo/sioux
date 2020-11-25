@@ -399,7 +399,7 @@ public class MainController {
         }
         lvAllVisitors.refresh();
     }
-    public void clearInfo(){
+    public void clearInfo() {
         //Visitor page
         btnEditVisitor.setDisable(true);
         btnAddVisitor.setDisable(false);
