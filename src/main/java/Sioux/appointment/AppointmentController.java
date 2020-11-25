@@ -1,6 +1,7 @@
 package Sioux.appointment;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AppointmentController {
@@ -29,7 +30,7 @@ public class AppointmentController {
         return repository.searchForAppointmentString(searchTerm);
     }
 
-    public List<Appointment> searchForAppointmentByDate(LocalDate searchDate) {
+    public List<Appointment> searchForAppointmentByDate(LocalDateTime searchDate) {
         return repository.GetAppointmentsByDate(searchDate);
     }
 
@@ -46,7 +47,7 @@ public class AppointmentController {
         return filteredList;
     } */
 
-    public List<Appointment> searchAppointmentStringDate(String term, LocalDate searchDate) {
+    public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate) {
         return repository.searchAppointmentStringDate(term, searchDate);
 
     }

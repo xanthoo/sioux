@@ -3,17 +3,19 @@ package Sioux.appointment;
 import Sioux.visitor.Visitor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class Appointment {
 
     private  String subject;
     private int id;
-    private LocalDate start;
+    private LocalDateTime start;
     private LocalDate end;
     private Visitor visitor;
 
 
-    public Appointment(String subject, int id, LocalDate start, LocalDate end, Visitor visitor) {
+    public Appointment(String subject, int id, LocalDateTime start, LocalDate end, Visitor visitor) {
         this.subject = subject;
         this.id = id;
         this.start = start;
@@ -37,11 +39,11 @@ public class Appointment {
         this.id = id;
     }
 
-    public LocalDate getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 

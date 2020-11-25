@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AppointmentSQLRepository implements IAppointmentRepository {
@@ -48,7 +49,7 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
     }
 
     @Override
-    public List<Appointment> GetAppointmentsByDate(LocalDate date) {
+    public List<Appointment> GetAppointmentsByDate(LocalDateTime date) {
         Response response =  serviceTarget.queryParam("Date",date).request()
                 .accept(MediaType.APPLICATION_JSON).get();
         GenericType<List<Appointment>> genericType = new GenericType<>(){};
@@ -89,7 +90,7 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
     }
 
     @Override
-    public List<Appointment> searchAppointmentStringDate(String term, LocalDate searchDate){
+    public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate){
         return null;
         //not yet implemented in back-end
     }

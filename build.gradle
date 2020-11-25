@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     // https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
@@ -25,6 +26,13 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.30.1'
+
+    implementation group: "com.twilio.sdk", name: "twilio", version: "8.2.0"
+
+    compile 'com.sparkjava:spark-core:2.5.+'
+    compile 'com.twilio.sdk:twilio:7.+'
+    implementation group: "com.twilio.sdk", name: "twilio", version: "8.1.0"
+
 }
 
 javafx{

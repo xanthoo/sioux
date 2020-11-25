@@ -6,4 +6,5 @@ public interface IParkingSpotRepository {
 
     List<ParkingSpot> GetAllParkingSpots();
     ParkingSpot GetParkingSpotByNumber(int number);
+    ParkingSpot getAvParkingspot();
 }

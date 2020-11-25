@@ -3,18 +3,22 @@ package Sioux.appointment;
 import Sioux.visitor.Visitor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppointmentMemoryRepository implements IAppointmentRepository {
     List<Appointment> appointmentList;
+    DateTimeFormatter formatter;
 
     public AppointmentMemoryRepository(){
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         appointmentList = new ArrayList<>();
-        appointmentList.add(new Appointment("Test event", 1, LocalDate.now(), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        appointmentList.add(new Appointment("Test event 2", 2, LocalDate.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        appointmentList.add(new Appointment("Test event 2", 3, LocalDate.now(), LocalDate.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
+        appointmentList.add(new Appointment("Test event", 1, LocalDateTime.now(), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
+        appointmentList.add(new Appointment("Test event 2", 2, LocalDateTime.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
+        appointmentList.add(new Appointment("Test event 2", 3, LocalDateTime.now(), LocalDate.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
     }
     public void CreateNewAppointment(Appointment appointment) {
     appointmentList.add(appointment);
@@ -37,10 +41,10 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
 
     }
 
-    public List<Appointment> GetAppointmentsByDate(LocalDate date) {
+    public List<Appointment> GetAppointmentsByDate(LocalDateTime date) {
         List<Appointment> filteredList= new ArrayList<>();
         for (Appointment a : appointmentList){
-            if (a.getStart().equals(date)){
+            if (a.getStart().format(formatter).equals(date.format(formatter))){
                 filteredList.add(a);
             }
         }
@@ -84,7 +88,7 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
         return filteredList;
     }
 
-    public List<Appointment> searchAppointmentStringDate(String term, LocalDate searchDate) {
+    public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate) {
         List<Appointment> filteredList = new ArrayList<>();
         for (Appointment a : appointmentList){
             if (a.getSubject().contains(term) || a.getVisitor().getName().contains(term)){
