@@ -28,6 +28,7 @@ public class MainController {
     private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
     Visitor selectedVisitor;
+    Visitor selectedVisitorForAppointment;
     Appointment selectedAppointment;
 
     //FXML vars
@@ -64,6 +65,8 @@ public class MainController {
     private TextField tfPhoneNumber;
     @FXML
     private TextField tfSearchVisitor;
+    @FXML
+    private Button btnSelectVisitor;
     @FXML
     Button btnEditVisitor;
     @FXML
@@ -105,6 +108,7 @@ public class MainController {
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
             btnCancel.setText("Clear");
+            btnSelectVisitor.setDisable(true);
         } else
         {
             clearInfo();
@@ -124,7 +128,7 @@ public class MainController {
                 //Adding the controller to the view
                 EditAppointmentController editAppointmentController = fxmlLoader.getController();
                 //Initializing the controller
-                editAppointmentController.initData(selectedAppointment, appointmentController);
+                editAppointmentController.initData(selectedAppointment, appointmentController, visitorController);
                 //Making the stage
                 Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -132,8 +136,8 @@ public class MainController {
                 stage.setTitle("Edit appointment");
                 stage.setScene(new Scene(root1));
                 stage.showAndWait();
-                lvAllAppointments.refresh();
                 viewSelectedAppointment();
+                lvAllAppointments.refresh();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -148,13 +152,38 @@ public class MainController {
         }
 
     }
+    public void selectVisitor(){
+        //Code for editing screen for the appointment
+        try {
+            //Creating the loader
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChooseVisitorView.fxml"));
+            Parent root1 = fxmlLoader.load();
+            //Adding the controller to the view
+            ChooseVisitorController chooseVisitorController = fxmlLoader.getController();
+            //Initializing the controller
+            chooseVisitorController.initData(visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Choose visitor");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            selectedVisitorForAppointment = chooseVisitorController.getSelectedVisitor();
+            tfVisitorName.setText(selectedVisitorForAppointment.getName());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void saveAppointment(){
-        if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
+        if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && selectedVisitorForAppointment != null){
             appointmentController.createAppointment(new Appointment(tfNotes.getText(), appointmentList.size(), dpAppointmentDate.getValue() , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0)));
             lvAllAppointments.getItems().clear();
             getAllAppointments();
             lvAllAppointments.refresh();
+            clearInfo();
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -345,6 +374,7 @@ public class MainController {
         dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
+        btnSelectVisitor.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
