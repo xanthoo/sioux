@@ -1,5 +1,6 @@
 package Sioux;
 
+import Sioux.SMS.sendSms;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
@@ -16,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +54,8 @@ public class MainController {
     private Button btnCancel;
     @FXML
     private Button btnAddAppointment;
+    @FXML
+    private TextField tfStartDate;
 
     //FXML vars visitor page
     @FXML
@@ -102,7 +107,7 @@ public class MainController {
         if (selectedAppointment != null){
             appointmentController.getAppointmentById(selectedAppointment.getId());
             tfVisitorName.setText(selectedAppointment.getVisitor().getName());
-            dpAppointmentDate.setValue(selectedAppointment.getStart());
+            //dpAppointmentDate.setValue(selectedAppointment.getStart());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
@@ -153,10 +158,20 @@ public class MainController {
 
     public void saveAppointment(){
         if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
-            appointmentController.createAppointment(new Appointment(tfNotes.getText(), appointmentList.size(), dpAppointmentDate.getValue() , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0)));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
+            appointmentController.createAppointment(newAppointment);
             lvAllAppointments.getItems().clear();
             getAllAppointments();
             lvAllAppointments.refresh();
+            while (true){
+                if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().format(formatter))==0){
+                    String[] arguments = new String[] {"123"};
+                    sendSms smsSender = new sendSms();
+                    smsSender.main(arguments);
+                    break;
+                }
+            }
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
