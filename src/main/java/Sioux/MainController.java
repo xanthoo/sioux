@@ -164,14 +164,19 @@ public class MainController {
             lvAllAppointments.getItems().clear();
             getAllAppointments();
             lvAllAppointments.refresh();
-            while (true){
-                if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().format(formatter))==0){
-                    String[] arguments = new String[] {"123"};
-                    sendSms smsSender = new sendSms();
-                    smsSender.main(arguments);
-                    break;
+            new Thread(new Runnable() {
+                public void run() {
+                    while (true){
+                        if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().minusMinutes(5).format(formatter))==0){
+                            String[] arguments = new String[] {"123"};
+                            sendSms smsSender = new sendSms();
+                            sendSms.main(arguments);
+                            break;
+                        }
+                    }
                 }
-            }
+            }).start();
+
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

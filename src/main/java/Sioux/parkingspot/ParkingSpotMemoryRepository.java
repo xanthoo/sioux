@@ -35,4 +35,13 @@ public class ParkingSpotMemoryRepository implements IParkingSpotRepository{
         }
         return null;
     }
+
+    public ParkingSpot getAvParkingspot() {
+        for (ParkingSpot spot : parkingSpots){
+            if (!spot.isOccupied()){
+                return spot;
+            }
+        }
+        return null;
+    }
 }
