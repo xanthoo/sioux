@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane fx:id="apEditVisitorView" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Sioux.EditVisitorController">
+            <AnchorPane prefHeight="364.0" prefWidth="495.0">
+            <children>
+               <TextField fx:id="tfNameVisitor" layoutX="173.0" layoutY="82.0" />
+               <TextField fx:id="tfLicenseplateNumber" layoutX="173.0" layoutY="131.0" />
+               <TextField fx:id="tfPhoneNumber" layoutX="173.0" layoutY="182.0" />
+               <TextField fx:id="tfVisitorNotes" layoutX="173.0" layoutY="230.0" prefHeight="39.0" prefWidth="149.0" />
+               <Label layoutX="201.0" layoutY="30.0" text="Edit visitor details" />
+                <Button fx:id="btnSaveVisitor" layoutX="173.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#saveVisitorDetails" prefHeight="25.0" prefWidth="59.0" text="Save" />
+                <Button fx:id="btnCancel" layoutX="263.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#cancelEditing" prefHeight="25.0" prefWidth="59.0" text="Cancel" />
+                <Label layoutX="68.0" layoutY="86.0" text="Name" />
+                <Label layoutX="68.0" layoutY="135.0" text="License plate" />
+                <Label layoutX="68.0" layoutY="186.0" text="Phone number" />
+                <Label layoutX="68.0" layoutY="241.0" text="Notes" />
+             </children></AnchorPane>
+ </AnchorPane>
