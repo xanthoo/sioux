@@ -51,6 +51,8 @@ public class MainController {
     private Button btnCancel;
     @FXML
     private Button btnAddAppointment;
+    @FXML
+    private Button btnDeleteAppointment;
 
     //FXML vars visitor page
     @FXML
@@ -89,6 +91,7 @@ public class MainController {
         lvAllVisitors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         btnEditVisitor.setDisable(true);
         btnEditAppointment.setDisable(true);
+        btnDeleteAppointment.setDisable(true);
     }
 
     private void getAllAppointments(){
@@ -107,6 +110,7 @@ public class MainController {
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
+            btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
             btnSelectVisitor.setDisable(true);
         } else
@@ -205,16 +209,18 @@ public class MainController {
         lvAllAppointments.refresh();
     }
     public void deleteAppointment(){
-        try{
-            appointmentList.remove(selectedAppointment);
-            lvAllAppointments.getItems().remove(selectedAppointment);
-            lvAllAppointments.refresh();
-        } catch (Exception e){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("There is no appointment selected.");
-            alert.setContentText("Please select an appointment.");
-            alert.showAndWait();
+        if(selectedAppointment != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete the appointment?");
+            Optional <ButtonType> action = alert.showAndWait();
+            if(action.get() == ButtonType.OK) {
+                appointmentList.remove(selectedAppointment);
+                lvAllAppointments.getItems().remove(selectedAppointment);
+                lvAllAppointments.refresh();
+                clearInfo();
+            }
         }
     }
 
@@ -323,23 +329,49 @@ public class MainController {
             lvAllVisitors.getItems().add(visitorController.addVisitor(new Visitor(visitorList.toArray().length+1, newVisitorName, tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText())));
             lvAllVisitors.refresh();
         }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Not all information is (correctly) provided.");
+            alert.setContentText("Please fill in all information correctly.");
+            alert.showAndWait();
+        }
     }
     public void deleteVisitor(){
+        if (selectedVisitor != null) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete the user?");
+        alert.setContentText("Are you sure you want to delete the visitor?\nThis will also delete all the appointments of the visitor.");
         Optional <ButtonType> action = alert.showAndWait();
             if(action.get() == ButtonType.OK) {
-                Visitor visitorToDelete = visitorController.deleteVisitor(selectedVisitor.getVisitorID());
-                if (visitorToDelete != null) {
-                    lvAllVisitors.getItems().remove(visitorToDelete);
-                    visitorController.getVisitorList().remove(visitorToDelete);
-                    clearInfo();
+                visitorController.deleteVisitor(selectedVisitor.getVisitorID());
+                lvAllVisitors.getItems().remove(selectedVisitor);
+                visitorController.getVisitorList().remove(selectedVisitor);
+                //Deleting all the appointments of the visitor
+                List<Appointment> appointmentsToDelete = appointmentController.searchEventsVisitorID(selectedVisitor.getVisitorID());
+                for (Appointment p: appointmentsToDelete) {
+                    lvVisitorAppointments.getItems().removeAll(lvAllAppointments.getItems());
+                    appointmentController.deleteAppointment(p);
+                    appointmentList.remove(p);
+                    lvAllAppointments.getItems().remove(p);
+                    lvVisitorAppointments.getSelectionModel().clearSelection();
                 }
-                lvAllVisitors.refresh();
+                clearInfo();
             }
+            lvAllVisitors.refresh();
+            lvAllAppointments.refresh();
+            lvVisitorAppointments.refresh();
         }
+        else{
+            //No visitor selected
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("There is no visitor selected.");
+            alert.setContentText("Please select a visitor.");
+            alert.showAndWait();
+        }
+    }
 
 
     public void searchVisitorByName(){
@@ -374,7 +406,7 @@ public class MainController {
         dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
-        btnSelectVisitor.setDisable(false);
+        btnDeleteAppointment.setDisable(true);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
