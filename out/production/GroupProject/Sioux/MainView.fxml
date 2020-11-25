@@ -49,7 +49,7 @@
                         <DatePicker fx:id="dpAppointmentDate" layoutX="350.0" layoutY="118.0" prefHeight="13.0" prefWidth="212.0" />
                         <Label layoutX="14.0" layoutY="16.0" text="All appointments" />
                         <Label layoutX="399.0" layoutY="50.0" text="Appointment details" />
-                        <Button fx:id="btnSearchAppointment" layoutX="558.0" layoutY="11.0" mnemonicParsing="false" onAction="#searchForAppointment" onMouseClicked="#searchForAppointment" prefHeight="25.0" prefWidth="58.0" text="Search" />
+                        <Button fx:id="btnSearchAppointment" layoutX="558.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#searchForAppointment" prefHeight="25.0" prefWidth="58.0" text="Search" />
                         <TextField fx:id="tfVisitorName" layoutX="350.0" layoutY="80.0"  prefHeight="25.0" prefWidth="212.0" />
                         <Label layoutX="300.0" layoutY="84.0" text="Visitor:" />
                         <Label layoutX="300.0" layoutY="122.0" text="Date:" />

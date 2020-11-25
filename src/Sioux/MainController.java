@@ -97,8 +97,7 @@ public class MainController {
         // Formatter is set for hours so the appointment is still visible for one hour
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH");
         for (Appointment appointment : appointmentList) {
-            int dif = LocalDateTime.now().format(formatter).compareTo(appointment.getStart().format(formatter));
-            if (dif<1) {
+            if (LocalDateTime.now().format(formatter).compareTo(appointment.getStart().format(formatter))<1) {
                 lvAllAppointments.getItems().add(appointment);
             }
         }
@@ -109,7 +108,7 @@ public class MainController {
         if (selectedAppointment != null){
             appointmentController.getAppointmentById(selectedAppointment.getId());
             tfVisitorName.setText(selectedAppointment.getVisitor().getName());
-            //dpAppointmentDate.setValue(selectedAppointment.getStart());
+            tfStartDate.setText(selectedAppointment.getStart().toString());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
@@ -208,14 +207,14 @@ public class MainController {
             }
         }
         else if (tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
-            filteredList = appointmentController.searchForAppointmentByDate(dpDateSearch.getValue());
+            filteredList = appointmentController.searchForAppointmentByDate(dpDateSearch.getValue().atStartOfDay());
             lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             for (Appointment e: filteredList){
                 lvAllAppointments.getItems().add(e);
             }
         }
         else if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null){
-            filteredList = appointmentController.searchAppointmentStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue());
+            filteredList = appointmentController.searchAppointmentStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue().atStartOfDay());
             lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             for (Appointment e: filteredList){
                 lvAllAppointments.getItems().add(e);
@@ -225,6 +224,7 @@ public class MainController {
             lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             getAllAppointments();
         }
+        dpDateSearch.setValue(null);
     }
 
     public List<Appointment> searchAppointmentVisitorID(int id){

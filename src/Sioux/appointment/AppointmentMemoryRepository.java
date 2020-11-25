@@ -4,14 +4,17 @@ import Sioux.visitor.Visitor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppointmentMemoryRepository implements IAppointmentRepository {
     List<Appointment> appointmentList;
+    DateTimeFormatter formatter;
 
     public AppointmentMemoryRepository(){
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         appointmentList = new ArrayList<>();
         appointmentList.add(new Appointment("Test event", 1, LocalDateTime.parse("2020-11-22T16:00:00"), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
         appointmentList.add(new Appointment("Test event 2", 2, LocalDateTime.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
@@ -38,10 +41,10 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
 
     }
 
-    public List<Appointment> GetAppointmentsByDate(LocalDate date) {
+    public List<Appointment> GetAppointmentsByDate(LocalDateTime date) {
         List<Appointment> filteredList= new ArrayList<>();
         for (Appointment a : appointmentList){
-            if (a.getStart().equals(date)){
+            if (a.getStart().format(formatter).equals(date.format(formatter))){
                 filteredList.add(a);
             }
         }
@@ -85,11 +88,11 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
         return filteredList;
     }
 
-    public List<Appointment> searchAppointmentStringDate(String term, LocalDate searchDate) {
+    public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate) {
         List<Appointment> filteredList = new ArrayList<>();
         for (Appointment a : appointmentList){
             if (a.getSubject().contains(term) || a.getVisitor().getName().contains(term)){
-                if (a.getStart().equals(searchDate)){
+                if (a.getStart().format(formatter).equals(searchDate.format(formatter))){
                     filteredList.add(a);
                 }
             }
