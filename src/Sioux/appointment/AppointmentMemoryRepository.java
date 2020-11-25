@@ -3,6 +3,7 @@ package Sioux.appointment;
 import Sioux.visitor.Visitor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,9 +13,9 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
 
     public AppointmentMemoryRepository(){
         appointmentList = new ArrayList<>();
-        appointmentList.add(new Appointment("Test event", 1, LocalDate.now(), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        appointmentList.add(new Appointment("Test event 2", 2, LocalDate.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        appointmentList.add(new Appointment("Test event 2", 3, LocalDate.now(), LocalDate.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
+        appointmentList.add(new Appointment("Test event", 1, LocalDateTime.parse("2020-11-22T16:00:00"), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
+        appointmentList.add(new Appointment("Test event 2", 2, LocalDateTime.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
+        appointmentList.add(new Appointment("Test event 2", 3, LocalDateTime.now(), LocalDate.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
     }
     public void CreateNewAppointment(Appointment appointment) {
     appointmentList.add(appointment);

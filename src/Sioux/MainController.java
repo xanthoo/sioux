@@ -18,6 +18,8 @@ import javafx.stage.StageStyle;
 import java.time.LocalDate;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +52,8 @@ public class MainController {
     private Button btnCancel;
     @FXML
     private Button btnAddAppointment;
+    @FXML
+    private TextField tfStartDate;
 
     //FXML vars visitor page
     @FXML
@@ -90,8 +94,13 @@ public class MainController {
 
     private void getAllAppointments(){
         appointmentList = appointmentController.getAppointments();
+        // Formatter is set for hours so the appointment is still visible for one hour
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH");
         for (Appointment appointment : appointmentList) {
-            lvAllAppointments.getItems().add(appointment);
+            int dif = LocalDateTime.now().format(formatter).compareTo(appointment.getStart().format(formatter));
+            if (dif<1) {
+                lvAllAppointments.getItems().add(appointment);
+            }
         }
     }
 
@@ -100,7 +109,7 @@ public class MainController {
         if (selectedAppointment != null){
             appointmentController.getAppointmentById(selectedAppointment.getId());
             tfVisitorName.setText(selectedAppointment.getVisitor().getName());
-            dpAppointmentDate.setValue(selectedAppointment.getStart());
+            //dpAppointmentDate.setValue(selectedAppointment.getStart());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnAddAppointment.setDisable(true);
@@ -151,7 +160,7 @@ public class MainController {
 
     public void saveAppointment(){
         if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
-            appointmentController.createAppointment(new Appointment(tfNotes.getText(), appointmentList.size(), dpAppointmentDate.getValue() , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0)));
+            appointmentController.createAppointment(new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText()), dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0)));
             lvAllAppointments.getItems().clear();
             getAllAppointments();
             lvAllAppointments.refresh();

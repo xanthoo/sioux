@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class EditAppointmentController {
 
@@ -47,7 +48,7 @@ public class EditAppointmentController {
         visitorName = tfVisitor.getText();
 
         if(checkEnteredDataCorrect()){
-            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
+            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }
         else{
