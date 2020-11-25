@@ -37,4 +37,8 @@ public class ParkingSpotRepository implements IParkingSpotRepository{
         GenericType<ParkingSpot> genericType = new GenericType<>(){};
         return response.readEntity(genericType);
     }
+
+    public ParkingSpot getAvParkingspot() {
+        return null;
+    }
 }
