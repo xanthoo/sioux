@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="btnSelectVisitor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Sioux.EditAppointmentController">
+<AnchorPane fx:id="btnSelectVisitor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text layoutX="254.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit appointment" />
+      <Text fx:id="txtTitle" layoutX="254.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit appointment" />
       <TextField fx:id="tfSubject" layoutX="226.0" layoutY="96.0" />
       <TextField fx:id="tfStartDate" layoutX="226.0" layoutY="154.0" />
       <TextField fx:id="tfEndDate" layoutX="226.0" layoutY="214.0" />
@@ -16,7 +16,7 @@
       <Text layoutX="144.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date" />
       <Text layoutX="145.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date" />
       <Text layoutX="144.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Visitor" />
-      <Button layoutX="226.0" layoutY="335.0" mnemonicParsing="false" onMouseClicked="#saveAppointmentDetails" text="Update" />
+      <Button fx:id="btnSave" layoutX="226.0" layoutY="335.0" mnemonicParsing="false" onMouseClicked="#saveAppointmentDetails" text="Update" />
       <Button fx:id="btnCancel" layoutX="323.0" layoutY="335.0" mnemonicParsing="false" onMouseClicked="#cancelEditing" text="Cancel" />
       <Button layoutX="375.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#selectVisitor" text="Select visitor" />
    </children>

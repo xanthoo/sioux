@@ -55,8 +55,6 @@ public class MainController {
     @FXML
     private Button btnCancel;
     @FXML
-    private Button btnAddAppointment;
-    @FXML
     private TextField tfStartDate;
     @FXML
     private Button btnDeleteAppointment;
@@ -132,14 +130,12 @@ public class MainController {
             tfStartDate.setText(selectedAppointment.getStart().toString());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
-            btnAddAppointment.setDisable(true);
             btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
             btnSelectVisitor.setDisable(true);
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
-            btnAddAppointment.setDisable(false);
             btnCancel.setText("Cancel");
         }
     }
@@ -149,10 +145,10 @@ public class MainController {
         if (selectedAppointment != null) {
             try {
                 //Creating the loader
+                EditAppointmentController editAppointmentController = new EditAppointmentController();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+                fxmlLoader.setController(editAppointmentController);
                 Parent root1 = fxmlLoader.load();
-                //Adding the controller to the view
-                EditAppointmentController editAppointmentController = fxmlLoader.getController();
                 //Initializing the controller
                 editAppointmentController.initData(selectedAppointment, appointmentController, visitorController);
                 //Making the stage
@@ -202,47 +198,26 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
     public void saveAppointment() {
-        if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
-            appointmentController.createAppointment(newAppointment);
-            lvAllAppointments.getItems().clear();
-            getAllAppointments();
-            // String var = (LocalDateTime.now().minusMinutes(5).format(formatter));
-            new Thread(new Runnable() {
-                public void run() {
-                    while (true){
-                        if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().minusMinutes(5).format(formatter))==0){
-                            String[] arguments = new String[] {"123"};
-                            Sioux.SMS.sendSms smsSender = new Sioux.SMS.sendSms();
-                            Sioux.SMS.sendSms.main(arguments);
-                            break;
-                        }
-                    }
-                }
-            }).start();
-
+        try {
+            //Creating the loader
+            AddAppointmentController addAppointmentController = new AddAppointmentController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+            fxmlLoader.setController(addAppointmentController);
+            Parent root1 = fxmlLoader.load();
+            addAppointmentController.initData(appointmentController, visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Create appointment");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            viewSelectedAppointment();
+            lvAllAppointments.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Not all information is (correctly) provided.");
-            alert.setContentText("Please fill in all information correctly.");
-            alert.showAndWait();
-        }
-        /*Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedAppointment.setSubject(tfNotes.getText());
-        //selectedAppointment.setVisitor(tfVisitorName.getText());
-        selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
-        appointmentController.updateAppointment(selectedAppointment);
-        /*Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedEvent.setVisitor(visitorController.getVisitorByID(selectedEvent.getVisitor().getVisitorID()));
-        selectedEvent.setSubject(tfNotes.getText());
-        selectedEvent.setStart(dpAppointmentDate.getValue());
-        appointmentController.editEvent(selectedEvent); */
-        lvAllAppointments.refresh();
     }
 
     public void deleteAppointment() {
@@ -442,7 +417,6 @@ public class MainController {
         tfStartDate.setText("");
         dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
-        btnAddAppointment.setDisable(false);
         btnDeleteAppointment.setDisable(true);
         btnSelectVisitor.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
