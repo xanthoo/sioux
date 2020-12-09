@@ -59,8 +59,6 @@ public class MainController {
     @FXML
     private Button btnDeleteAppointment;
     @FXML
-    private Button btnSelectVisitor;
-    @FXML
     private ListView<ParkingSpot> lvAllParkingSpots;
     @FXML
     private RadioButton rbtnFreeSpots;
@@ -132,7 +130,6 @@ public class MainController {
             btnEditAppointment.setDisable(false);
             btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
-            btnSelectVisitor.setDisable(true);
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
@@ -159,6 +156,8 @@ public class MainController {
                 stage.setScene(new Scene(root1));
                 stage.showAndWait();
                 viewSelectedAppointment();
+                lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+                getAllAppointments();
                 lvAllAppointments.refresh();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -213,7 +212,8 @@ public class MainController {
             stage.setTitle("Create appointment");
             stage.setScene(new Scene(root1));
             stage.showAndWait();
-            viewSelectedAppointment();
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            getAllAppointments();
             lvAllAppointments.refresh();
         } catch (IOException e) {
             e.printStackTrace();
@@ -279,7 +279,6 @@ public class MainController {
         if (selectedVisitor == null) {
             btnEditVisitor.setDisable(true);
             btnAddVisitor.setDisable(false);
-            btnSelectVisitor.setDisable(false);
             tfNameVisitor.setText("");
             tfLicenseplateNumber.setText("");
             tfVisitorNotes.setText("");
@@ -287,7 +286,6 @@ public class MainController {
         } else {
             btnEditVisitor.setDisable(false);
             btnAddVisitor.setDisable(true);
-            btnSelectVisitor.setDisable(true);
             visitorController.getVisitorByID(selectedVisitor.getVisitorID());
             tfNameVisitor.setText(selectedVisitor.getName());
             tfLicenseplateNumber.setText(selectedVisitor.getLicensePlateNumber());
@@ -418,7 +416,6 @@ public class MainController {
         dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
         btnDeleteAppointment.setDisable(true);
-        btnSelectVisitor.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
