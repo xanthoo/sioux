@@ -42,8 +42,6 @@ public class MainController {
     @FXML
     private TextField tfVisitorName;
     @FXML
-    private DatePicker dpAppointmentDate;
-    @FXML
     private TextField tfNotes;
     @FXML
     private TextField tfSearchAppointments;
@@ -204,9 +202,9 @@ public class MainController {
     }
 
     public void saveAppointment() {
-        if(!tfNotes.getText().equals("") && dpAppointmentDate.getValue()!=null && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
+        if(!tfNotes.getText().equals("") && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , dpAppointmentDate.getValue() , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
+            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
             appointmentController.createAppointment(newAppointment);
             lvAllAppointments.getItems().clear();
             getAllAppointments();
@@ -440,7 +438,6 @@ public class MainController {
         tfVisitorName.setText("");
         tfNotes.setText("");
         tfStartDate.setText("");
-        dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
         btnDeleteAppointment.setDisable(true);
