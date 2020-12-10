@@ -33,6 +33,9 @@ dependencies {
     compile 'com.twilio.sdk:twilio:7.+'
     implementation group: "com.twilio.sdk", name: "twilio", version: "8.1.0"
 
+    // https://mvnrepository.com/artifact/org.springframework/spring-web
+    compile group: 'org.springframework', name: 'spring-web', version: '5.3.2'
+
 }
 
 javafx{
