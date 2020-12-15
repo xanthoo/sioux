@@ -40,6 +40,8 @@ public class MainController {
     @FXML
     private TextField tfVisitorName;
     @FXML
+    private DatePicker dpAppointmentDate;
+    @FXML
     private TextField tfNotes;
     @FXML
     private TextField tfSearchAppointments;
@@ -51,13 +53,9 @@ public class MainController {
     @FXML
     private Button btnCancel;
     @FXML
-    private Button btnAddAppointment;
-    @FXML
     private TextField tfStartDate;
     @FXML
     private Button btnDeleteAppointment;
-    @FXML
-    private Button btnSelectVisitor;
     @FXML
     private ListView<ParkingSpot> lvAllParkingSpots;
     @FXML
@@ -78,6 +76,8 @@ public class MainController {
     private TextField tfSearchVisitor;
     @FXML
     Button btnEditVisitor;
+    @FXML
+    Button btnAddVisitor;
     @FXML
     ListView<Appointment> lvVisitorAppointments;
 
@@ -128,7 +128,6 @@ public class MainController {
             btnEditAppointment.setDisable(false);
             btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
-            btnSelectVisitor.setDisable(true);
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
@@ -141,10 +140,10 @@ public class MainController {
         if (selectedAppointment != null) {
             try {
                 //Creating the loader
+                EditAppointmentController editAppointmentController = new EditAppointmentController();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+                fxmlLoader.setController(editAppointmentController);
                 Parent root1 = fxmlLoader.load();
-                //Adding the controller to the view
-                EditAppointmentController editAppointmentController = fxmlLoader.getController();
                 //Initializing the controller
                 editAppointmentController.initData(selectedAppointment, appointmentController, visitorController);
                 //Making the stage
@@ -155,6 +154,8 @@ public class MainController {
                 stage.setScene(new Scene(root1));
                 stage.showAndWait();
                 viewSelectedAppointment();
+                lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+                getAllAppointments();
                 lvAllAppointments.refresh();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -194,47 +195,27 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
     public void saveAppointment() {
-        if(!tfNotes.getText().equals("") && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
-            appointmentController.createAppointment(newAppointment);
-            lvAllAppointments.getItems().clear();
+        try {
+            //Creating the loader
+            AddAppointmentController addAppointmentController = new AddAppointmentController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+            fxmlLoader.setController(addAppointmentController);
+            Parent root1 = fxmlLoader.load();
+            addAppointmentController.initData(appointmentController, visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Create appointment");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
             getAllAppointments();
-            // String var = (LocalDateTime.now().minusMinutes(5).format(formatter));
-            new Thread(new Runnable() {
-                public void run() {
-                    while (true){
-                        if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().minusMinutes(5).format(formatter))==0){
-                            String[] arguments = new String[] {"123"};
-                            Sioux.SMS.sendSms smsSender = new Sioux.SMS.sendSms();
-                            Sioux.SMS.sendSms.main(arguments);
-                            break;
-                        }
-                    }
-                }
-            }).start();
-
+            lvAllAppointments.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Not all information is (correctly) provided.");
-            alert.setContentText("Please fill in all information correctly.");
-            alert.showAndWait();
-        }
-        /*Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedAppointment.setSubject(tfNotes.getText());
-        //selectedAppointment.setVisitor(tfVisitorName.getText());
-        selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
-        appointmentController.updateAppointment(selectedAppointment);
-        /*Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedEvent.setVisitor(visitorController.getVisitorByID(selectedEvent.getVisitor().getVisitorID()));
-        selectedEvent.setSubject(tfNotes.getText());
-        selectedEvent.setStart(dpAppointmentDate.getValue());
-        appointmentController.editEvent(selectedEvent); */
-        lvAllAppointments.refresh();
     }
 
     public void deleteAppointment() {
@@ -295,14 +276,14 @@ public class MainController {
         selectedVisitor = lvAllVisitors.getSelectionModel().getSelectedItem();
         if (selectedVisitor == null) {
             btnEditVisitor.setDisable(true);
-            btnSelectVisitor.setDisable(false);
+            btnAddVisitor.setDisable(false);
             tfNameVisitor.setText("");
             tfLicenseplateNumber.setText("");
             tfVisitorNotes.setText("");
             tfPhoneNumber.setText("");
         } else {
             btnEditVisitor.setDisable(false);
-            btnSelectVisitor.setDisable(true);
+            btnAddVisitor.setDisable(true);
             visitorController.getVisitorByID(selectedVisitor.getVisitorID());
             tfNameVisitor.setText(selectedVisitor.getName());
             tfLicenseplateNumber.setText(selectedVisitor.getLicensePlateNumber());
@@ -322,10 +303,10 @@ public class MainController {
         if (selectedVisitor != null) {
             try {
                 //Creating the loader
-                EditVisitorController editVisitorController = new EditVisitorController();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VisitorView.fxml"));
-                fxmlLoader.setController(editVisitorController);
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditVisitorView.fxml"));
                 Parent root1 = fxmlLoader.load();
+                //Adding the controller to the view
+                EditVisitorController editVisitorController = fxmlLoader.getController();
                 //Initializing the controller
                 editVisitorController.initData(selectedVisitor, visitorController);
                 //Making the stage
@@ -351,26 +332,16 @@ public class MainController {
     }
 
     public void addVisitor() {
-        try {
-            //Creating the loader
-            AddVisitorController addVisitorController = new AddVisitorController();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VisitorView.fxml"));
-            fxmlLoader.setController(addVisitorController);
-            Parent root1 = fxmlLoader.load();
-            addVisitorController.initData(visitorController);
-            //Making the stage
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.DECORATED);
-            stage.setTitle("Add visitor");
-            stage.setScene(new Scene(root1));
-            stage.showAndWait();
-            lvAllVisitors.getItems().clear();
-            getAllVisitors();
+        String newVisitorName = tfNameVisitor.getText();
+        if (!newVisitorName.equals("")) {
+            lvAllVisitors.getItems().add(visitorController.addVisitor(new Visitor(visitorList.toArray().length + 1, newVisitorName, tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText())));
             lvAllVisitors.refresh();
-            viewSelectedVisitor();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Not all information is (correctly) provided.");
+            alert.setContentText("Please fill in all information correctly.");
+            alert.showAndWait();
         }
     }
 
@@ -427,6 +398,7 @@ public class MainController {
     public void clearInfo() {
         //Visitor page
         btnEditVisitor.setDisable(true);
+        btnAddVisitor.setDisable(false);
         selectedVisitor = null;
         tfNameVisitor.setText("");
         tfLicenseplateNumber.setText("");
@@ -439,10 +411,9 @@ public class MainController {
         tfVisitorName.setText("");
         tfNotes.setText("");
         tfStartDate.setText("");
+        dpAppointmentDate.setValue(null);
         btnEditAppointment.setDisable(true);
-        btnAddAppointment.setDisable(false);
         btnDeleteAppointment.setDisable(true);
-        btnSelectVisitor.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
