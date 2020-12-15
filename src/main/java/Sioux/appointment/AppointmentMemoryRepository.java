@@ -16,9 +16,9 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
     public AppointmentMemoryRepository(){
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         appointmentList = new ArrayList<>();
-        appointmentList.add(new Appointment("Test event", 0, LocalDateTime.now(), LocalDate.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        appointmentList.add(new Appointment("Test event 2", 1, LocalDateTime.now(), LocalDate.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
-        appointmentList.add(new Appointment("Test event 2", 2, LocalDateTime.now(), LocalDate.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
+        appointmentList.add(new Appointment("Test event", 0, LocalDateTime.now(), new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
+        appointmentList.add(new Appointment("Test event 2", 1, LocalDateTime.now(),new Visitor(1, "Piet", "123-abc-45", "0612345678", "Needs a whiteboard.")));
+        appointmentList.add(new Appointment("Test event 2", 2, LocalDateTime.now(), new Visitor(2, "Jan", "456-def-78", "0690123456", "Brings his assistant with him.")));
     }
     public void CreateNewAppointment(Appointment appointment) {
     appointmentList.add(appointment);
@@ -32,7 +32,6 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
         for (Appointment a : appointmentList){
             if (a.getId() == updatedAppointment.getId()){
                 a.setStart(updatedAppointment.getStart());
-                a.setEnd(updatedAppointment.getEnd());
                 a.setSubject(updatedAppointment.getSubject());
                 a.setVisitor(updatedAppointment.getVisitor());
                 appointmentList.set(appointmentList.indexOf(a), a);

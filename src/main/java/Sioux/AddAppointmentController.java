@@ -60,7 +60,7 @@ public class AddAppointmentController {
         visitorName = tfVisitor.getText();
 
         if(checkEnteredDataCorrect()){
-            appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), visitorOfAppointment));
+            appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), LocalDateTime.parse(startDate), visitorOfAppointment));
             // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }
