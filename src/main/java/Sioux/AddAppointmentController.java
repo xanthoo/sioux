@@ -11,7 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,7 +22,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class EditAppointmentController {
+public class AddAppointmentController {
 
     @FXML
     private TextField tfSubject;
@@ -30,33 +32,32 @@ public class EditAppointmentController {
     private TextField tfVisitor;
     @FXML
     private Button btnCancel;
+    @FXML
+    private Text txtTitle;
+    @FXML
+    private Button btnSave;
 
     private AppointmentController appointmentController;
     private VisitorController visitorController;
-    private Appointment selectedEvent;
     private String subject;
     private String startDate;
     private String visitorName;
     private Visitor visitorOfAppointment;
 
-    void initData(Appointment appointment, AppointmentController appointmentController, VisitorController visitorController) {
-        this.selectedEvent = appointment;
-        tfSubject.setText(appointment.getSubject());
-        tfStartDate.setText(appointment.getStart().toString());
-        tfVisitor.setText(appointment.getVisitor().getName());
-        visitorOfAppointment = selectedEvent.getVisitor();
+    void initData(AppointmentController appointmentController, VisitorController visitorController) {
         this.appointmentController = appointmentController;
         this.visitorController = visitorController;
+        txtTitle.setText("Create appointment");
+        btnSave.setText("Save");
     }
 
     public void saveAppointmentDetails(){
-
         subject = tfSubject.getText();
         startDate = tfStartDate.getText();
         visitorName = tfVisitor.getText();
 
         if(checkEnteredDataCorrect()){
-            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), visitorOfAppointment));
+            appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), LocalDateTime.parse(startDate), visitorOfAppointment));
             // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }

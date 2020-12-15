@@ -1,36 +1,40 @@
 package Sioux;
 
+import Sioux.SMS.sendSms;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
 import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
 import Sioux.parkingspot.ParkingSpotMemoryRepository;
-import Sioux.visitor.Visitor;
-import Sioux.visitor.VisitorController;
-import Sioux.visitor.VisitorMemoryRepository;
+import Sioux.visitor.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable{
     private final AppointmentController appointmentController;
     private final VisitorController visitorController;
     private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
-    private List<ParkingSpot> parkingSpotList;
     Visitor selectedVisitor;
     Visitor selectedVisitorForAppointment;
     Appointment selectedAppointment;
@@ -58,12 +62,6 @@ public class MainController {
     private TextField tfStartDate;
     @FXML
     private Button btnDeleteAppointment;
-    @FXML
-    private Button btnSelectVisitor;
-    @FXML
-    private ListView<ParkingSpot> lvAllParkingSpots;
-    @FXML
-    private RadioButton rbtnFreeSpots;
 
     //FXML vars visitor page
     @FXML
@@ -81,13 +79,19 @@ public class MainController {
     @FXML
     Button btnEditVisitor;
     @FXML
-    Button btnAddVisitor;
-    @FXML
     ListView<Appointment> lvVisitorAppointments;
+
+   //Parkingspot vars
+    @FXML
+    TableView<ParkingSpot> parkingspotTable;
+    @FXML
+    TableColumn<ParkingSpot, Integer> parkingspotColumn;
+    @FXML
+    TableColumn<ParkingSpot, Boolean> availableColumn;
 
     DateTimeFormatter formatter2;
 
-    public MainController() {
+    public MainController()  {
         appointmentList = new ArrayList<>();
         appointmentController = new AppointmentController(new AppointmentMemoryRepository());
         visitorController = new VisitorController(new VisitorMemoryRepository());
@@ -100,7 +104,6 @@ public class MainController {
 
         getAllAppointments();
         getAllParkingSpots();
-        lvAllParkingSpots.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         lvAllAppointments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         //Visitor page
@@ -130,14 +133,11 @@ public class MainController {
             tfStartDate.setText(selectedAppointment.getStart().toString());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
-            btnAddAppointment.setDisable(true);
             btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
-            btnSelectVisitor.setDisable(true);
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
-            btnAddAppointment.setDisable(false);
             btnCancel.setText("Cancel");
         }
     }
@@ -148,9 +148,11 @@ public class MainController {
             try {
                 //Creating the loader
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+                EditAppointmentController editAppointmentController = new EditAppointmentController();
+                fxmlLoader.setController(editAppointmentController);
                 Parent root1 = fxmlLoader.load();
                 //Adding the controller to the view
-                EditAppointmentController editAppointmentController = fxmlLoader.getController();
+
                 //Initializing the controller
                 editAppointmentController.initData(selectedAppointment, appointmentController, visitorController);
                 //Making the stage
@@ -202,45 +204,44 @@ public class MainController {
     }
 
     public void saveAppointment() {
-        if(!tfNotes.getText().equals("") && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
+
+        try {
+            //Creating the loader
+            AddAppointmentController addAppointmentController = new AddAppointmentController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+            fxmlLoader.setController(addAppointmentController);
+            Parent root1 = fxmlLoader.load();
+            addAppointmentController.initData(appointmentController, visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Create appointment");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            getAllAppointments();
+            lvAllAppointments.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
-            appointmentController.createAppointment(newAppointment);
             lvAllAppointments.getItems().clear();
             getAllAppointments();
-            // String var = (LocalDateTime.now().minusMinutes(5).format(formatter));
             new Thread(new Runnable() {
                 public void run() {
                     while (true){
                         if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().minusMinutes(5).format(formatter))==0){
                             String[] arguments = new String[] {"123"};
-                            Sioux.SMS.sendSms smsSender = new Sioux.SMS.sendSms();
+                            Sioux.SMS.sendSms smsSender = new sendSms();
                             Sioux.SMS.sendSms.main(arguments);
                             break;
                         }
                     }
                 }
             }).start();
-
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Not all information is (correctly) provided.");
-            alert.setContentText("Please fill in all information correctly.");
-            alert.showAndWait();
-        }
-        /*Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedAppointment.setSubject(tfNotes.getText());
-        //selectedAppointment.setVisitor(tfVisitorName.getText());
-        selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
-        appointmentController.updateAppointment(selectedAppointment);
-        /*Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedEvent.setVisitor(visitorController.getVisitorByID(selectedEvent.getVisitor().getVisitorID()));
-        selectedEvent.setSubject(tfNotes.getText());
-        selectedEvent.setStart(dpAppointmentDate.getValue());
-        appointmentController.editEvent(selectedEvent); */
-        lvAllAppointments.refresh();
+*/
     }
 
     public void deleteAppointment() {
@@ -301,16 +302,12 @@ public class MainController {
         selectedVisitor = lvAllVisitors.getSelectionModel().getSelectedItem();
         if (selectedVisitor == null) {
             btnEditVisitor.setDisable(true);
-            btnAddVisitor.setDisable(false);
-            btnSelectVisitor.setDisable(false);
             tfNameVisitor.setText("");
             tfLicenseplateNumber.setText("");
             tfVisitorNotes.setText("");
             tfPhoneNumber.setText("");
         } else {
             btnEditVisitor.setDisable(false);
-            btnAddVisitor.setDisable(true);
-            btnSelectVisitor.setDisable(true);
             visitorController.getVisitorByID(selectedVisitor.getVisitorID());
             tfNameVisitor.setText(selectedVisitor.getName());
             tfLicenseplateNumber.setText(selectedVisitor.getLicensePlateNumber());
@@ -330,10 +327,10 @@ public class MainController {
         if (selectedVisitor != null) {
             try {
                 //Creating the loader
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditVisitorView.fxml"));
+                EditVisitorController editVisitorController = new EditVisitorController();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VisitorView.fxml"));
+                fxmlLoader.setController(editVisitorController);
                 Parent root1 = fxmlLoader.load();
-                //Adding the controller to the view
-                EditVisitorController editVisitorController = fxmlLoader.getController();
                 //Initializing the controller
                 editVisitorController.initData(selectedVisitor, visitorController);
                 //Making the stage
@@ -359,16 +356,26 @@ public class MainController {
     }
 
     public void addVisitor() {
-        String newVisitorName = tfNameVisitor.getText();
-        if (!newVisitorName.equals("")) {
-            lvAllVisitors.getItems().add(visitorController.addVisitor(new Visitor(visitorList.toArray().length + 1, newVisitorName, tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText())));
+        try {
+            //Creating the loader
+            AddVisitorController addVisitorController = new AddVisitorController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VisitorView.fxml"));
+            fxmlLoader.setController(addVisitorController);
+            Parent root1 = fxmlLoader.load();
+            addVisitorController.initData(visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Add visitor");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            lvAllVisitors.getItems().clear();
+            getAllVisitors();
             lvAllVisitors.refresh();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Not all information is (correctly) provided.");
-            alert.setContentText("Please fill in all information correctly.");
-            alert.showAndWait();
+            viewSelectedVisitor();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -425,7 +432,6 @@ public class MainController {
     public void clearInfo() {
         //Visitor page
         btnEditVisitor.setDisable(true);
-        btnAddVisitor.setDisable(false);
         selectedVisitor = null;
         tfNameVisitor.setText("");
         tfLicenseplateNumber.setText("");
@@ -441,27 +447,25 @@ public class MainController {
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
         btnDeleteAppointment.setDisable(true);
-        btnSelectVisitor.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
     public void getAllParkingSpots(){
-        ClearParkingSpotList();
-        parkingSpotList = parkingSpotController.GetAllParkingSpots();
-        for(var parkingSpot : parkingSpotList){
-            if(rbtnFreeSpots.isSelected()){
-                if(!parkingSpot.isOccupied()){
-                    lvAllParkingSpots.getItems().add(parkingSpot);
-                }
-            }else{
-                lvAllParkingSpots.getItems().add(parkingSpot);
-            }
-        }
-    }
-    private void ClearParkingSpotList(){
-        lvAllParkingSpots.getItems().clear();
+
+        ObservableList<ParkingSpot> data = FXCollections.observableList(parkingSpotController.GetAllParkingSpots());
+
+        availableColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Boolean>("occupied"));
+        parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("number"));
+
+        parkingspotTable.setItems(null);
+        parkingspotTable.setItems(data);
+
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initialize();
+    }
 }
 
 
