@@ -2,6 +2,7 @@ package Sioux;
 
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
+import Sioux.visitor.ChooseVisitorController;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
 import javafx.fxml.FXML;

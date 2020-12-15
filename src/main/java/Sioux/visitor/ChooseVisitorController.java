@@ -1,8 +1,5 @@
-package Sioux;
+package Sioux.visitor;
 
-import Sioux.appointment.Appointment;
-import Sioux.visitor.Visitor;
-import Sioux.visitor.VisitorController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;

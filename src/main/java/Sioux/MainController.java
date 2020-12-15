@@ -18,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -83,8 +82,6 @@ public class MainController implements Initializable{
     @FXML
     Button btnEditVisitor;
     @FXML
-    Button btnAddVisitor;
-    @FXML
     ListView<Appointment> lvVisitorAppointments;
 
    //Parkingspot vars
@@ -139,14 +136,12 @@ public class MainController implements Initializable{
             tfStartDate.setText(selectedAppointment.getStart().toString());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
-            btnAddAppointment.setDisable(true);
             btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
             btnSelectVisitor.setDisable(true);
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
-            btnAddAppointment.setDisable(false);
             btnCancel.setText("Cancel");
         }
     }
@@ -310,7 +305,6 @@ public class MainController implements Initializable{
         selectedVisitor = lvAllVisitors.getSelectionModel().getSelectedItem();
         if (selectedVisitor == null) {
             btnEditVisitor.setDisable(true);
-            btnAddVisitor.setDisable(false);
             btnSelectVisitor.setDisable(false);
             tfNameVisitor.setText("");
             tfLicenseplateNumber.setText("");
@@ -318,7 +312,6 @@ public class MainController implements Initializable{
             tfPhoneNumber.setText("");
         } else {
             btnEditVisitor.setDisable(false);
-            btnAddVisitor.setDisable(true);
             btnSelectVisitor.setDisable(true);
             visitorController.getVisitorByID(selectedVisitor.getVisitorID());
             tfNameVisitor.setText(selectedVisitor.getName());
@@ -339,10 +332,10 @@ public class MainController implements Initializable{
         if (selectedVisitor != null) {
             try {
                 //Creating the loader
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditVisitorView.fxml"));
+                EditVisitorController editVisitorController = new EditVisitorController();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VisitorView.fxml"));
+                fxmlLoader.setController(editVisitorController);
                 Parent root1 = fxmlLoader.load();
-                //Adding the controller to the view
-                EditVisitorController editVisitorController = fxmlLoader.getController();
                 //Initializing the controller
                 editVisitorController.initData(selectedVisitor, visitorController);
                 //Making the stage
@@ -368,16 +361,26 @@ public class MainController implements Initializable{
     }
 
     public void addVisitor() {
-        String newVisitorName = tfNameVisitor.getText();
-        if (!newVisitorName.equals("")) {
-            lvAllVisitors.getItems().add(visitorController.addVisitor(new Visitor(visitorList.toArray().length + 1, newVisitorName, tfLicenseplateNumber.getText(), tfPhoneNumber.getText(), tfVisitorNotes.getText())));
+        try {
+            //Creating the loader
+            AddVisitorController addVisitorController = new AddVisitorController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VisitorView.fxml"));
+            fxmlLoader.setController(addVisitorController);
+            Parent root1 = fxmlLoader.load();
+            addVisitorController.initData(visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Add visitor");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            lvAllVisitors.getItems().clear();
+            getAllVisitors();
             lvAllVisitors.refresh();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Not all information is (correctly) provided.");
-            alert.setContentText("Please fill in all information correctly.");
-            alert.showAndWait();
+            viewSelectedVisitor();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -434,7 +437,6 @@ public class MainController implements Initializable{
     public void clearInfo() {
         //Visitor page
         btnEditVisitor.setDisable(true);
-        btnAddVisitor.setDisable(false);
         selectedVisitor = null;
         tfNameVisitor.setText("");
         tfLicenseplateNumber.setText("");
