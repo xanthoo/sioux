@@ -26,8 +26,6 @@ public class EditAppointmentController {
     @FXML
     private  TextField tfStartDate;
     @FXML
-    private TextField tfEndDate;
-    @FXML
     private TextField tfVisitor;
     @FXML
     private Button btnCancel;
@@ -38,7 +36,6 @@ public class EditAppointmentController {
     private String subject;
     private String startDate;
     private String visitorName;
-    private String endDate;
     private Visitor visitorOfAppointment;
 
     void initData(Appointment appointment, AppointmentController appointmentController, VisitorController visitorController) {
@@ -46,7 +43,6 @@ public class EditAppointmentController {
         tfSubject.setText(appointment.getSubject());
         tfStartDate.setText(appointment.getStart().toString());
         tfVisitor.setText(appointment.getVisitor().getName());
-        tfEndDate.setText(appointment.getEnd().toString());
         visitorOfAppointment = selectedEvent.getVisitor();
         this.appointmentController = appointmentController;
         this.visitorController = visitorController;
@@ -56,11 +52,10 @@ public class EditAppointmentController {
 
         subject = tfSubject.getText();
         startDate = tfStartDate.getText();
-        endDate = tfEndDate.getText();
         visitorName = tfVisitor.getText();
 
         if(checkEnteredDataCorrect()){
-            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), visitorOfAppointment));
+            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), visitorOfAppointment));
             // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }
@@ -105,11 +100,10 @@ public class EditAppointmentController {
     private boolean checkEnteredDataCorrect(){
         try{
             LocalDateTime.parse(startDate);
-            LocalDate.parse(endDate);
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !endDate.equals("") && !startDate.equals("") && !visitorName.equals("")){
+        if(!subject.equals("") && !startDate.equals("") && !visitorName.equals("")){
             return true;
         }
         return false;
