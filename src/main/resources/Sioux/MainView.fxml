@@ -7,6 +7,8 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -72,6 +74,12 @@
                   <Label layoutX="14.0" layoutY="16.0" text="All parking spots" />
                   <ListView fx:id="lvAllParkingSpots" layoutX="14.0" layoutY="43.0" onMouseClicked="#viewSelectedAppointment" prefHeight="277.0" prefWidth="236.0" />
                   <RadioButton fx:id="rbtnFreeSpots" layoutX="298.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#getAllParkingSpots" text="Only free spots" />
+                  <TableView id="parkingspotTable" layoutX="266.0" layoutY="85.0" prefHeight="200.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn id="parkingspotColumn" prefWidth="93.60003662109375" text="Parking spot" />
+                        <TableColumn id="availableColumn" prefWidth="71.2000732421875" text="Available" />
+                     </columns>
+                  </TableView>
                </children>
             </AnchorPane>
          </content>

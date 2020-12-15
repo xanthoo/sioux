@@ -7,7 +7,6 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -48,22 +47,23 @@
               <AnchorPane fx:id="apAllAppointments" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
                       <TextField fx:id="tfSearchAppointments" layoutX="464.0" layoutY="11.0" prefHeight="25.0" prefWidth="94.0" />
+                      <DatePicker fx:id="dpAppointmentDate" disable="true" layoutX="368.0" layoutY="118.0" prefHeight="13.0" prefWidth="212.0" />
                       <Label layoutX="14.0" layoutY="16.0" text="All appointments" />
                       <Label layoutX="417.0" layoutY="50.0" text="Appointment details" />
                       <Button fx:id="btnSearchAppointment" layoutX="558.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#searchForAppointment" prefHeight="25.0" prefWidth="58.0" text="Search" />
-                      <TextField fx:id="tfVisitorName" layoutX="368.0" layoutY="80.0" prefHeight="25.0" prefWidth="132.0" />
+                      <TextField fx:id="tfVisitorName" disable="true" layoutX="368.0" layoutY="80.0" prefHeight="25.0" prefWidth="212.0" />
                       <Label layoutX="318.0" layoutY="84.0" text="Visitor:" />
-                      <Label layoutX="319.0" layoutY="189.0" text="Notes:" />
-                      <TextField fx:id="tfNotes" alignment="TOP_LEFT" layoutX="367.0" layoutY="189.0" prefHeight="123.0" prefWidth="215.0" />
-                      <Button fx:id="btnSelectVisitor" layoutX="499.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#selectVisitor" text="Select visitor" />
+                      <Label layoutX="318.0" layoutY="122.0" text="Date:" />
+                      <Label layoutX="319.0" layoutY="200.0" text="Notes:" />
+                      <TextField fx:id="tfNotes" alignment="TOP_LEFT" disable="true" layoutX="367.0" layoutY="200.0" prefHeight="123.0" prefWidth="215.0" />
                       <Button fx:id="btnAddAppointment" layoutX="391.0" layoutY="333.0" mnemonicParsing="false" onMouseClicked="#saveAppointment" text="Create" />
                       <Button fx:id="btnCancel" layoutX="515.0" layoutY="333.0" mnemonicParsing="false" onMouseClicked="#clearInfo" text="Cancel" />
                       <DatePicker fx:id="dpDateSearch" layoutX="244.0" layoutY="11.0" prefHeight="13.0" prefWidth="212.0" />
                       <ListView fx:id="lvAllAppointments" layoutX="14.0" layoutY="43.0" onMouseClicked="#viewSelectedAppointment" prefHeight="277.0" prefWidth="200.0" />
                       <Button fx:id="btnDeleteAppointment" layoutX="14.0" layoutY="333.0" mnemonicParsing="false" onMouseClicked="#deleteAppointment" text="Delete appointment" />
                       <Button fx:id="btnEditAppointment" layoutX="587.0" layoutY="333.0" mnemonicParsing="false" onMouseClicked="#editAppointment" text="Edit" />
-                      <TextField fx:id="tfStartDate" layoutX="365.0" layoutY="134.0" prefHeight="25.0" prefWidth="212.0" />
-                  <Label layoutX="232.0" layoutY="138.0" text="Appointment start date:" />
+                      <TextField fx:id="tfStartDate" disable="true" layoutX="365.0" layoutY="161.0" prefHeight="25.0" prefWidth="212.0" />
+                  <Label layoutX="232.0" layoutY="165.0" text="Appointment start date:" />
                   </children></AnchorPane>
           </content>
       </Tab>
@@ -74,12 +74,7 @@
                   <Label layoutX="14.0" layoutY="16.0" text="All parking spots" />
                   <ListView fx:id="lvAllParkingSpots" layoutX="14.0" layoutY="43.0" onMouseClicked="#viewSelectedAppointment" prefHeight="277.0" prefWidth="236.0" />
                   <RadioButton fx:id="rbtnFreeSpots" layoutX="298.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#getAllParkingSpots" text="Only free spots" />
-                  <TableView id="parkingspotTable" layoutX="266.0" layoutY="85.0" prefHeight="200.0" prefWidth="200.0">
-                     <columns>
-                        <TableColumn id="parkingspotColumn" prefWidth="93.60003662109375" text="Parking spot" />
-                        <TableColumn id="availableColumn" prefWidth="71.2000732421875" text="Available" />
-                     </columns>
-                  </TableView>
+                  <TableView id="parkingspotTable" layoutX="300.0" layoutY="85.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </AnchorPane>
          </content>

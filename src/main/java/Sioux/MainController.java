@@ -1,5 +1,6 @@
 package Sioux;
 
+import Sioux.SMS.sendSms;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
@@ -9,11 +10,14 @@ import Sioux.parkingspot.ParkingSpotMemoryRepository;
 import Sioux.visitor.Visitor;
 import Sioux.visitor.VisitorController;
 import Sioux.visitor.VisitorMemoryRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -84,6 +88,12 @@ public class MainController {
     Button btnAddVisitor;
     @FXML
     ListView<Appointment> lvVisitorAppointments;
+    @FXML
+    TableView<ParkingSpot> parkingSpotTableView;
+    @FXML
+    TableColumn<ParkingSpot, Integer> parkingspotColumn;
+    @FXML
+    TableColumn<ParkingSpot, Boolean> availableColumn;
 
     DateTimeFormatter formatter2;
 
@@ -214,7 +224,7 @@ public class MainController {
                     while (true){
                         if(LocalDateTime.now().format(formatter).compareTo(newAppointment.getStart().minusMinutes(5).format(formatter))==0){
                             String[] arguments = new String[] {"123"};
-                            Sioux.SMS.sendSms smsSender = new Sioux.SMS.sendSms();
+                            Sioux.SMS.sendSms smsSender = new sendSms();
                             Sioux.SMS.sendSms.main(arguments);
                             break;
                         }
@@ -446,8 +456,25 @@ public class MainController {
         btnCancel.setText("Cancel");
     }
     public void getAllParkingSpots(){
-        ClearParkingSpotList();
+
+        ObservableList<ParkingSpot> observableList = FXCollections.observableList(parkingSpotController.GetAllParkingSpots());
         parkingSpotList = parkingSpotController.GetAllParkingSpots();
+
+        parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("number"));
+        availableColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Boolean>("occupied"));
+
+        parkingSpotTableView.setItems(observableList);
+
+//        for (ParkingSpot parkingSpot: parkingSpotList){
+
+  //      }
+
+
+
+
+
+        ClearParkingSpotList();
+
         for(var parkingSpot : parkingSpotList){
             if(rbtnFreeSpots.isSelected()){
                 if(!parkingSpot.isOccupied()){
