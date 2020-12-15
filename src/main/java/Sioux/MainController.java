@@ -7,9 +7,7 @@ import Sioux.appointment.AppointmentMemoryRepository;
 import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
 import Sioux.parkingspot.ParkingSpotMemoryRepository;
-import Sioux.visitor.Visitor;
-import Sioux.visitor.VisitorController;
-import Sioux.visitor.VisitorMemoryRepository;
+import Sioux.visitor.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -212,7 +211,6 @@ public class MainController implements Initializable{
             appointmentController.createAppointment(newAppointment);
             lvAllAppointments.getItems().clear();
             getAllAppointments();
-            // String var = (LocalDateTime.now().minusMinutes(5).format(formatter));
             new Thread(new Runnable() {
                 public void run() {
                     while (true){
