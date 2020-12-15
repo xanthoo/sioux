@@ -62,8 +62,6 @@ public class MainController implements Initializable{
     private TextField tfStartDate;
     @FXML
     private Button btnDeleteAppointment;
-    @FXML
-    private Button btnSelectVisitor;
 
     //FXML vars visitor page
     @FXML
@@ -137,7 +135,6 @@ public class MainController implements Initializable{
             btnEditAppointment.setDisable(false);
             btnDeleteAppointment.setDisable(false);
             btnCancel.setText("Clear");
-            btnSelectVisitor.setDisable(true);
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
@@ -232,16 +229,6 @@ public class MainController implements Initializable{
             alert.setContentText("Please fill in all information correctly.");
             alert.showAndWait();
         }
-        /*Appointment selectedAppointment = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedAppointment.setSubject(tfNotes.getText());
-        //selectedAppointment.setVisitor(tfVisitorName.getText());
-        selectedAppointment.setStart(LocalDate.from(dpAppointmentDate.getValue()));
-        appointmentController.updateAppointment(selectedAppointment);
-        /*Event selectedEvent = lvAllAppointments.getSelectionModel().getSelectedItem();
-        selectedEvent.setVisitor(visitorController.getVisitorByID(selectedEvent.getVisitor().getVisitorID()));
-        selectedEvent.setSubject(tfNotes.getText());
-        selectedEvent.setStart(dpAppointmentDate.getValue());
-        appointmentController.editEvent(selectedEvent); */
         lvAllAppointments.refresh();
     }
 
@@ -303,14 +290,12 @@ public class MainController implements Initializable{
         selectedVisitor = lvAllVisitors.getSelectionModel().getSelectedItem();
         if (selectedVisitor == null) {
             btnEditVisitor.setDisable(true);
-            btnSelectVisitor.setDisable(false);
             tfNameVisitor.setText("");
             tfLicenseplateNumber.setText("");
             tfVisitorNotes.setText("");
             tfPhoneNumber.setText("");
         } else {
             btnEditVisitor.setDisable(false);
-            btnSelectVisitor.setDisable(true);
             visitorController.getVisitorByID(selectedVisitor.getVisitorID());
             tfNameVisitor.setText(selectedVisitor.getName());
             tfLicenseplateNumber.setText(selectedVisitor.getLicensePlateNumber());
@@ -450,7 +435,6 @@ public class MainController implements Initializable{
         btnEditAppointment.setDisable(true);
         btnAddAppointment.setDisable(false);
         btnDeleteAppointment.setDisable(true);
-        btnSelectVisitor.setDisable(false);
         lvAllAppointments.getSelectionModel().clearSelection();
         btnCancel.setText("Cancel");
     }
