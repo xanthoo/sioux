@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,18 +24,19 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable{
     private final AppointmentController appointmentController;
     private final VisitorController visitorController;
     private List<Appointment> appointmentList;
     private List<Visitor> visitorList;
-    private List<ParkingSpot> parkingSpotList;
     Visitor selectedVisitor;
     Visitor selectedVisitorForAppointment;
     Appointment selectedAppointment;
@@ -64,10 +66,6 @@ public class MainController {
     private Button btnDeleteAppointment;
     @FXML
     private Button btnSelectVisitor;
-    @FXML
-    private ListView<ParkingSpot> lvAllParkingSpots;
-    @FXML
-    private RadioButton rbtnFreeSpots;
 
     //FXML vars visitor page
     @FXML
@@ -88,8 +86,10 @@ public class MainController {
     Button btnAddVisitor;
     @FXML
     ListView<Appointment> lvVisitorAppointments;
+
+   //Parkingspot vars
     @FXML
-    TableView<ParkingSpot> parkingSpotTableView;
+    TableView<ParkingSpot> parkingspotTable;
     @FXML
     TableColumn<ParkingSpot, Integer> parkingspotColumn;
     @FXML
@@ -97,7 +97,7 @@ public class MainController {
 
     DateTimeFormatter formatter2;
 
-    public MainController() {
+    public MainController()  {
         appointmentList = new ArrayList<>();
         appointmentController = new AppointmentController(new AppointmentMemoryRepository());
         visitorController = new VisitorController(new VisitorMemoryRepository());
@@ -110,7 +110,6 @@ public class MainController {
 
         getAllAppointments();
         getAllParkingSpots();
-        lvAllParkingSpots.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         lvAllAppointments.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         //Visitor page
@@ -457,38 +456,20 @@ public class MainController {
     }
     public void getAllParkingSpots(){
 
-        ObservableList<ParkingSpot> observableList = FXCollections.observableList(parkingSpotController.GetAllParkingSpots());
-        parkingSpotList = parkingSpotController.GetAllParkingSpots();
+        ObservableList<ParkingSpot> data = FXCollections.observableList(parkingSpotController.GetAllParkingSpots());
 
-        parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("number"));
         availableColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Boolean>("occupied"));
+        parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("number"));
 
-        parkingSpotTableView.setItems(observableList);
+        parkingspotTable.setItems(null);
+        parkingspotTable.setItems(data);
 
-//        for (ParkingSpot parkingSpot: parkingSpotList){
-
-  //      }
-
-
-
-
-
-        ClearParkingSpotList();
-
-        for(var parkingSpot : parkingSpotList){
-            if(rbtnFreeSpots.isSelected()){
-                if(!parkingSpot.isOccupied()){
-                    lvAllParkingSpots.getItems().add(parkingSpot);
-                }
-            }else{
-                lvAllParkingSpots.getItems().add(parkingSpot);
-            }
-        }
-    }
-    private void ClearParkingSpotList(){
-        lvAllParkingSpots.getItems().clear();
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initialize();
+    }
 }
 
 
