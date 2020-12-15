@@ -4,9 +4,10 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -71,8 +72,12 @@
             <AnchorPane fx:id="apAllParkingSpots" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Label layoutX="14.0" layoutY="16.0" text="All parking spots" />
-                  <ListView fx:id="lvAllParkingSpots" layoutX="14.0" layoutY="43.0" onMouseClicked="#viewSelectedAppointment" prefHeight="277.0" prefWidth="236.0" />
-                  <RadioButton fx:id="rbtnFreeSpots" layoutX="298.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#getAllParkingSpots" text="Only free spots" />
+                  <TableView id="parkingspotTable" fx:id="parkingspotTable" layoutX="3.0" layoutY="44.0" prefHeight="313.0" prefWidth="282.0">
+                     <columns>
+                        <TableColumn id="parkingspotColumn" fx:id="parkingspotColumn" prefWidth="93.60003662109375" text="Parking spot" />
+                        <TableColumn id="availableColumn" fx:id="availableColumn" prefWidth="71.2000732421875" text="Available" />
+                     </columns>
+                  </TableView>
                </children>
             </AnchorPane>
          </content>
