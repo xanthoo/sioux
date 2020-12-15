@@ -11,15 +11,13 @@ public class Appointment {
     private  String subject;
     private int id;
     private LocalDateTime start;
-    private LocalDate end;
     private Visitor visitor;
 
 
-    public Appointment(String subject, int id, LocalDateTime start, LocalDate end, Visitor visitor) {
+    public Appointment(String subject, int id, LocalDateTime start, Visitor visitor) {
         this.subject = subject;
         this.id = id;
         this.start = start;
-        this.end = end;
         this.visitor = visitor;
     }
 
@@ -45,14 +43,6 @@ public class Appointment {
 
     public void setStart(LocalDateTime start) {
         this.start = start;
-    }
-
-    public LocalDate getEnd() {
-        return end;
-    }
-
-    public void setEnd(LocalDate end) {
-        this.end = end;
     }
 
     public Visitor getVisitor() {
