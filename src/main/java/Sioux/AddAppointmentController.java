@@ -29,8 +29,6 @@ public class AddAppointmentController {
     @FXML
     private  TextField tfStartDate;
     @FXML
-    private TextField tfEndDate;
-    @FXML
     private TextField tfVisitor;
     @FXML
     private Button btnCancel;
@@ -44,7 +42,6 @@ public class AddAppointmentController {
     private String subject;
     private String startDate;
     private String visitorName;
-    private String endDate;
     private Visitor visitorOfAppointment;
 
     void initData(AppointmentController appointmentController, VisitorController visitorController) {
@@ -57,7 +54,6 @@ public class AddAppointmentController {
     public void saveAppointmentDetails(){
         subject = tfSubject.getText();
         startDate = tfStartDate.getText();
-        endDate = tfEndDate.getText();
         visitorName = tfVisitor.getText();
 
         if(checkEnteredDataCorrect()){
@@ -106,11 +102,10 @@ public class AddAppointmentController {
     private boolean checkEnteredDataCorrect(){
         try{
             LocalDateTime.parse(startDate);
-            LocalDate.parse(endDate);
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !endDate.equals("") && !startDate.equals("") && !visitorName.equals("")){
+        if(!subject.equals("") && !startDate.equals("") && !visitorName.equals("")){
             return true;
         }
         return false;

@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id "org.openjfx.javafxplugin" version "0.0.9"
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 group 'org.example'
@@ -38,6 +39,13 @@ dependencies {
 javafx{
     modules = ['javafx.controls', 'javafx.fxml']
     version = '11.0.2'
+}
+
+shadowJar {
+    mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': 'Sioux.RunnableMain'
+    }
 }
 
 mainClassName = 'Sioux.Main'

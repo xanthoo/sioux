@@ -148,9 +148,11 @@ public class MainController implements Initializable{
             try {
                 //Creating the loader
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+                EditAppointmentController editAppointmentController = new EditAppointmentController();
+                fxmlLoader.setController(editAppointmentController);
                 Parent root1 = fxmlLoader.load();
                 //Adding the controller to the view
-                EditAppointmentController editAppointmentController = fxmlLoader.getController();
+
                 //Initializing the controller
                 editAppointmentController.initData(selectedAppointment, appointmentController, visitorController);
                 //Making the stage
@@ -202,10 +204,29 @@ public class MainController implements Initializable{
     }
 
     public void saveAppointment() {
-        if(!tfNotes.getText().equals("") && visitorController.searchVisitorByName(tfVisitorName.getText()).stream().count() != 0){
+
+        try {
+            //Creating the loader
+            AddAppointmentController addAppointmentController = new AddAppointmentController();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAppointmentView.fxml"));
+            fxmlLoader.setController(addAppointmentController);
+            Parent root1 = fxmlLoader.load();
+            addAppointmentController.initData(appointmentController, visitorController);
+            //Making the stage
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Create appointment");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            lvAllAppointments.getItems().removeAll(lvAllAppointments.getItems());
+            getAllAppointments();
+            lvAllAppointments.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            Appointment newAppointment = new Appointment(tfNotes.getText(), appointmentList.size(), LocalDateTime.parse(tfStartDate.getText(), formatter) , visitorController.searchVisitorByName(tfVisitorName.getText()).get(0));
-            appointmentController.createAppointment(newAppointment);
             lvAllAppointments.getItems().clear();
             getAllAppointments();
             new Thread(new Runnable() {
@@ -220,16 +241,7 @@ public class MainController implements Initializable{
                     }
                 }
             }).start();
-
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Not all information is (correctly) provided.");
-            alert.setContentText("Please fill in all information correctly.");
-            alert.showAndWait();
-        }
-        lvAllAppointments.refresh();
+*/
     }
 
     public void deleteAppointment() {
