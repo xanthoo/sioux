@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class EditAppointmentController {
 
@@ -26,6 +28,8 @@ public class EditAppointmentController {
     private TextField tfSubject;
     @FXML
     private  TextField tfStartDate;
+    @FXML
+    private DatePicker dpStartDate;
     @FXML
     private TextField tfVisitor;
     @FXML
@@ -35,28 +39,46 @@ public class EditAppointmentController {
     private VisitorController visitorController;
     private Appointment selectedEvent;
     private String subject;
-    private String startDate;
+    private String startTime;
+    private LocalDate startDate;
     private String visitorName;
     private Visitor visitorOfAppointment;
 
     void initData(Appointment appointment, AppointmentController appointmentController, VisitorController visitorController) {
         this.selectedEvent = appointment;
         tfSubject.setText(appointment.getSubject());
-        tfStartDate.setText(appointment.getStart().toString());
+        tfStartDate.setText(getStartTimeString(appointment.getStart().toString()));
+        dpStartDate.setValue(getStartDate(appointment.getStart()));
         tfVisitor.setText(appointment.getVisitor().getName());
         visitorOfAppointment = selectedEvent.getVisitor();
         this.appointmentController = appointmentController;
         this.visitorController = visitorController;
     }
 
+    private LocalDateTime startDateTimeOfAppointment(String startTime, LocalDate startDate){
+        return LocalDateTime.parse(startDate + "T" +startTime);
+    }
+    private String getStartTimeString(String startTimeDate){
+        int index = 11;
+        char[] chs = startTimeDate.toCharArray();
+        return new String(chs, index, chs.length - index);
+    }
+    private LocalDate getStartDate(LocalDateTime start){
+        int index = 10;
+        char[] chs = start.toString().toCharArray();
+        return LocalDate.parse(new String(chs, 0, index));
+    }
+
+
     public void saveAppointmentDetails(){
 
         subject = tfSubject.getText();
-        startDate = tfStartDate.getText();
+        startTime = tfStartDate.getText();
         visitorName = tfVisitor.getText();
+        startDate = dpStartDate.getValue();
 
         if(checkEnteredDataCorrect()){
-            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), visitorOfAppointment));
+            appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), startDateTimeOfAppointment(startTime, startDate), visitorOfAppointment));
             // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }
@@ -100,11 +122,11 @@ public class EditAppointmentController {
     }
     private boolean checkEnteredDataCorrect(){
         try{
-            LocalDateTime.parse(startDate);
+            LocalTime.parse(startTime);
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !startDate.equals("") && !visitorName.equals("")){
+        if(!subject.equals("") && !startTime.equals("") && !visitorName.equals("")){
             return true;
         }
         return false;

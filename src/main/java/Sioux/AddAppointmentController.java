@@ -11,7 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -21,6 +21,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 
 public class AddAppointmentController {
 
@@ -36,11 +38,14 @@ public class AddAppointmentController {
     private Text txtTitle;
     @FXML
     private Button btnSave;
+    @FXML
+    private DatePicker dpStartDate;
 
     private AppointmentController appointmentController;
     private VisitorController visitorController;
     private String subject;
-    private String startDate;
+    private String startTime;
+    private LocalDate startDate;
     private String visitorName;
     private Visitor visitorOfAppointment;
 
@@ -53,11 +58,12 @@ public class AddAppointmentController {
 
     public void saveAppointmentDetails(){
         subject = tfSubject.getText();
-        startDate = tfStartDate.getText();
+        startTime = tfStartDate.getText();
         visitorName = tfVisitor.getText();
+        startDate = dpStartDate.getValue();
 
         if(checkEnteredDataCorrect()){
-            appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), LocalDateTime.parse(startDate), visitorOfAppointment));
+            appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), startDateTimeOfAppointment(startTime, startDate), visitorOfAppointment));
             // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }
@@ -70,6 +76,11 @@ public class AddAppointmentController {
             alert.showAndWait();
         }
     }
+
+    private LocalDateTime startDateTimeOfAppointment(String startTime, LocalDate startDate){
+        return LocalDateTime.parse(startDate + "T" +startTime);
+    }
+
     public void selectVisitor(){
         //Code for editing screen for the appointment
         try {
@@ -101,11 +112,11 @@ public class AddAppointmentController {
     }
     private boolean checkEnteredDataCorrect(){
         try{
-            LocalDateTime.parse(startDate);
+            LocalTime.parse(startTime);
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !startDate.equals("") && !visitorName.equals("")){
+        if(!subject.equals("") && !startTime.equals("") && !startDate.equals(null) && !visitorName.equals("")){
             return true;
         }
         return false;
