@@ -1,5 +1,4 @@
 package Sioux.LicensePlateApi;
-
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +39,12 @@ public class LicensePlateApiContext implements LicensePlateApi{
         try {
             ResponseEntity<String> responseEntity =
                     restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
-            result = responseEntity.toString();
+            String s = responseEntity.toString();
+
+            s = s.substring(s.indexOf("unicodeText\": \"") + 15);
+            result = s.substring(0, s.indexOf("\""));
+
+
         } catch (Exception e) {
             e.getMessage();
         }
