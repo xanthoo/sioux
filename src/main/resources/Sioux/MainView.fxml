@@ -43,17 +43,13 @@
                            <font>
                               <Font size="13.0" />
                            </font></Button>
-                        <Button layoutX="494.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#clearInfo" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Clear">
-                           <font>
-                              <Font size="13.0" />
-                           </font></Button>
                         <ListView fx:id="lvAllVisitors" layoutX="14.0" layoutY="39.0" onMouseClicked="#viewSelectedVisitor" prefHeight="415.0" prefWidth="189.0" />
                         <Label layoutX="62.0" layoutY="13.0" text="Visitors">
                            <font>
                               <Font size="16.0" />
                            </font></Label>
-                        <TextField fx:id="tfSearchVisitor" layoutX="464.0" layoutY="11.0" prefHeight="25.0" prefWidth="94.0" />
-                        <Button fx:id="btnSearchVisitor" layoutX="569.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#searchVisitorByName" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Search">
+                        <TextField fx:id="tfSearchVisitor" layoutX="475.0" layoutY="10.0" prefHeight="25.0" prefWidth="94.0" />
+                        <Button fx:id="btnSearchVisitor" layoutX="576.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#searchVisitorByName" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Search">
                            <font>
                               <Font size="13.0" />
                            </font></Button>
@@ -99,49 +95,45 @@
           <content>
               <AnchorPane fx:id="apAllAppointments" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
                   <children>
-                      <TextField fx:id="tfSearchAppointments" layoutX="464.0" layoutY="11.0" prefHeight="25.0" prefWidth="94.0" />
+                      <TextField fx:id="tfSearchAppointments" layoutX="428.0" layoutY="58.0" prefHeight="25.0" prefWidth="94.0" />
                       <Label layoutX="41.0" layoutY="13.0" text="All appointments">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
-                      <Label layoutX="328.0" layoutY="64.0" text="Appointment details">
+                      <Label layoutX="328.0" layoutY="116.0" text="Appointment details">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font></Label>
-                      <Button fx:id="btnSearchAppointment" layoutX="569.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#searchForAppointment" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Search">
+                      <Button fx:id="btnSearchAppointment" layoutX="524.0" layoutY="55.0" mnemonicParsing="false" onMouseClicked="#searchForAppointment" prefHeight="25.0" prefWidth="67.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Search">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
-                      <TextField fx:id="tfVisitorName" disable="true" layoutX="296.0" layoutY="101.0" prefHeight="25.0" prefWidth="252.0" />
-                      <Label layoutX="243.0" layoutY="101.0" text="Visitor">
+                      <TextField fx:id="tfVisitorName" disable="true" layoutX="296.0" layoutY="153.0" prefHeight="25.0" prefWidth="252.0" />
+                      <Label layoutX="243.0" layoutY="153.0" text="Visitor">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
-                      <Label layoutX="250.0" layoutY="189.0" text="Notes">
+                      <Label layoutX="250.0" layoutY="241.0" text="Notes">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
-                      <TextField fx:id="tfNotes" alignment="TOP_LEFT" disable="true" layoutX="296.0" layoutY="189.0" prefHeight="123.0" prefWidth="252.0" />
-                      <Button fx:id="btnAddAppointment" layoutX="279.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#saveAppointment" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Create">
+                      <TextField fx:id="tfNotes" alignment="TOP_LEFT" disable="true" layoutX="296.0" layoutY="241.0" prefHeight="123.0" prefWidth="252.0" />
+                      <Button fx:id="btnAddAppointment" layoutX="298.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#saveAppointment" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Create">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
-                      <Button fx:id="btnCancel" layoutX="368.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#clearInfo" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Cancel">
-                     <font>
-                        <Font size="13.0" />
-                     </font></Button>
-                      <DatePicker fx:id="dpDateSearch" layoutX="244.0" layoutY="11.0" prefHeight="13.0" prefWidth="212.0" />
+                      <DatePicker fx:id="dpDateSearch" layoutX="276.0" layoutY="58.0" prefHeight="25.0" prefWidth="147.0" />
                       <ListView fx:id="lvAllAppointments" layoutX="14.0" layoutY="39.0" onMouseClicked="#viewSelectedAppointment" prefHeight="415.0" prefWidth="189.0" />
                       <Button fx:id="btnDeleteAppointment" layoutX="53.0" layoutY="470.0" mnemonicParsing="false" onMouseClicked="#deleteAppointment" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Delete appointment">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
-                      <Button fx:id="btnEditAppointment" layoutX="460.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#editAppointment" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Edit">
+                      <Button fx:id="btnEditAppointment" layoutX="466.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#editAppointment" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Edit">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
-                      <TextField fx:id="tfStartDate" disable="true" layoutX="296.0" layoutY="148.0" prefHeight="25.0" prefWidth="252.0" />
-                  <Label layoutX="213.0" layoutY="148.0" prefHeight="25.0" prefWidth="75.0" text="Start date">
+                      <TextField fx:id="tfStartDate" disable="true" layoutX="296.0" layoutY="200.0" prefHeight="25.0" prefWidth="252.0" />
+                  <Label layoutX="213.0" layoutY="200.0" prefHeight="25.0" prefWidth="75.0" text="Start date">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
@@ -164,6 +156,17 @@
                         </Label>
                      </children>
                   </AnchorPane>
+                  <Label layoutX="342.0" layoutY="13.0" prefHeight="25.0" prefWidth="163.0" text="Search for an appointment:" />
+                  <Label layoutX="277.0" layoutY="39.0" prefHeight="25.0" prefWidth="27.0" text="Date:">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="429.0" layoutY="40.0" prefHeight="25.0" prefWidth="70.0" text="Visitorname:">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
                   </children></AnchorPane>
           </content>
       </Tab>
@@ -203,6 +206,54 @@
                </children>
             </AnchorPane>
          </content>
+      </Tab>
+      <Tab text="License plate">
+        <content>
+          <AnchorPane fx:id="licensePlateAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
+               <children>
+                  <AnchorPane layoutX="646.0" prefHeight="530.0" prefWidth="280.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);;">
+                     <children>
+                        <Label layoutX="85.0" layoutY="179.0" prefHeight="57.0" prefWidth="110.0" style="-fx-background-color: Black;" text="  SIOUX" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="27.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="64.0" layoutY="236.0" text="TECHNOLOGIES" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="58.0" layoutY="260.0" prefHeight="38.0" prefWidth="189.0" text="Parking spot application">
+                           <font>
+                              <Font name="Arial Italic" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TextField fx:id="tbBrowsePlate" layoutX="158.0" layoutY="54.0" prefHeight="25.0" prefWidth="248.0">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <Button fx:id="btnBrowse" layoutX="238.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#browseLicensePlate" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Browse">
+                     <font>
+                        <Font size="13.0" />
+                     </font></Button>
+                  <Label layoutX="217.0" layoutY="14.0" text="Choose licenseplate">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+                  <Label fx:id="lblLicensePlate" layoutX="391.0" layoutY="207.0" prefHeight="17.0" prefWidth="53.0">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font></Label>
+                  <Label layoutX="194.0" layoutY="205.0" text="License plate number:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
       </Tab>
   </tabs>
 </TabPane>
