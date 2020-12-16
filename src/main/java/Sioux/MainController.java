@@ -1,5 +1,7 @@
 package Sioux;
 
+import Sioux.LicensePlateApi.LicensePlateApi;
+import Sioux.LicensePlateApi.LicensePlateApiContext;
 import Sioux.SMS.sendSms;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
@@ -17,10 +19,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.*;
 
+
+import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -31,6 +35,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable{
+
+    LicensePlateApi licensePlateApi = new LicensePlateApiContext();
     private final AppointmentController appointmentController;
     private final VisitorController visitorController;
     private List<Appointment> appointmentList;
@@ -61,7 +67,18 @@ public class MainController implements Initializable{
     @FXML
     private TextField tfStartDate;
     @FXML
+    private AnchorPane licensePlateAnchor;
+    @FXML
     private Button btnDeleteAppointment;
+    @FXML
+    private TextField tbBrowsePlate;
+
+    @FXML
+    private Button btnBrowse;
+
+    @FXML
+    private Label lblLicensePlate;
+
 
     //FXML vars visitor page
     @FXML
@@ -466,6 +483,31 @@ public class MainController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         initialize();
     }
+
+
+    public void browseLicensePlate(){
+
+        FileChooser fc = new FileChooser();
+
+
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG files", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG files", "*.png")
+        );
+
+
+        File selectedFile = fc.showOpenDialog(null);
+
+        if(selectedFile != null){
+            var result = selectedFile.getAbsolutePath();
+            System.out.println(selectedFile.getAbsolutePath());
+            System.out.println(licensePlateApi.getLicensePlate(result));
+        }
+        else{
+            System.out.println("File is not valid");
+        }
+    }
+
 }
 
 
