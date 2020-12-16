@@ -37,6 +37,15 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework/spring-web
     compile group: 'org.springframework', name: 'spring-web', version: '5.3.2'
 
+    // https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-client
+    compile group: 'org.glassfish.tyrus', name: 'tyrus-client', version: '2.0.0'
+
+    // https://mvnrepository.com/artifact/org.glassfish.tyrus/tyrus-container-grizzly
+    testCompile group: 'org.glassfish.tyrus', name: 'tyrus-container-grizzly', version: '1.2.1'
+
+    // https://mvnrepository.com/artifact/org.glassfish.tyrus.bundles/tyrus-standalone-client
+    compile group: 'org.glassfish.tyrus.bundles', name: 'tyrus-standalone-client', version: '2.0.0'
+
 }
 
 javafx{

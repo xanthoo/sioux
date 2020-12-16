@@ -1,6 +1,5 @@
 package Sioux;
 
-import Sioux.SMS.sendSms;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
@@ -8,6 +7,10 @@ import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
 import Sioux.parkingspot.ParkingSpotMemoryRepository;
 import Sioux.visitor.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +43,7 @@ public class MainController implements Initializable{
     Visitor selectedVisitorForAppointment;
     Appointment selectedAppointment;
     ParkingSpotController parkingSpotController;
+    WebsocketClientEndpoint clientEndPoint;
 
     //FXML vars
     @FXML
@@ -88,6 +93,8 @@ public class MainController implements Initializable{
     TableColumn<ParkingSpot, Integer> parkingspotColumn;
     @FXML
     TableColumn<ParkingSpot, Boolean> availableColumn;
+    @FXML
+    private Button btnSocketConnection;
 
     DateTimeFormatter formatter2;
 
@@ -96,10 +103,10 @@ public class MainController implements Initializable{
         appointmentController = new AppointmentController(new AppointmentMemoryRepository());
         visitorController = new VisitorController(new VisitorMemoryRepository());
         parkingSpotController = new ParkingSpotController(new ParkingSpotMemoryRepository());
+        clientEndPoint = new WebsocketClientEndpoint();
     }
 
     public void initialize() {
-
         formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         getAllAppointments();
@@ -112,6 +119,25 @@ public class MainController implements Initializable{
         btnEditVisitor.setDisable(true);
         btnEditAppointment.setDisable(true);
         btnDeleteAppointment.setDisable(true);
+
+        connectWebsocket();
+    }
+
+    public void connectWebsocket(){
+        try {
+            clientEndPoint.connect(URI.create("ws://localhost:9988/sioux/parking"));
+            clientEndPoint.addMessageHandler(message -> {
+                try {
+                    if(!message.equals("connected")) updateParkingSpots(message);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setContentText(e.getMessage() + " Could not connect to websocket.");
+            a.show();
+        }
     }
 
     private void getAllAppointments() {
@@ -455,7 +481,7 @@ public class MainController implements Initializable{
         ObservableList<ParkingSpot> data = FXCollections.observableList(parkingSpotController.GetAllParkingSpots());
 
         availableColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Boolean>("occupied"));
-        parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("number"));
+        parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("id"));
 
         parkingspotTable.setItems(null);
         parkingspotTable.setItems(data);
@@ -465,6 +491,18 @@ public class MainController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initialize();
+    }
+
+    public void updateParkingSpots(String JSONParkingSpots) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        var parkingSpots = mapper.readValue(JSONParkingSpots, new TypeReference<List<ParkingSpot>>() {});
+        var data = FXCollections.observableArrayList(parkingSpots);
+        Platform.runLater(() -> {
+            availableColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Boolean>("occupied"));
+            parkingspotColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpot, Integer>("id"));
+            parkingspotTable.setItems(null);
+            parkingspotTable.setItems(data);
+        });
     }
 }
 
