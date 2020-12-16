@@ -206,7 +206,7 @@
       </Tab>
       <Tab text="License plate">
         <content>
-          <AnchorPane fx:id="licensePlateAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <AnchorPane fx:id="licensePlateAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
                <children>
                   <AnchorPane layoutX="646.0" prefHeight="530.0" prefWidth="280.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);;">
                      <children>
@@ -227,10 +227,27 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <TextField fx:id="tbBrowsePlate" layoutX="164.0" layoutY="176.0" />
-                  <Button fx:id="btnBrowse" layoutX="322.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#browseLicensePlate" prefHeight="25.0" prefWidth="89.0" text="Browse" />
-                  <Label layoutX="186.0" layoutY="159.0" text="Choose licenseplate" />
-                  <Label fx:id="lblLicensePlate" layoutX="211.0" layoutY="222.0" />
+                  <TextField fx:id="tbBrowsePlate" layoutX="158.0" layoutY="54.0" prefHeight="25.0" prefWidth="248.0">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <Button fx:id="btnBrowse" layoutX="238.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#browseLicensePlate" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Browse">
+                     <font>
+                        <Font size="13.0" />
+                     </font></Button>
+                  <Label layoutX="217.0" layoutY="14.0" text="Choose licenseplate">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+                  <Label fx:id="lblLicensePlate" layoutX="391.0" layoutY="207.0" prefHeight="17.0" prefWidth="53.0">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font></Label>
+                  <Label layoutX="194.0" layoutY="205.0" text="License plate number:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
         </content>

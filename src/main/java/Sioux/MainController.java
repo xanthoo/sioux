@@ -500,11 +500,14 @@ public class MainController implements Initializable{
 
         if(selectedFile != null){
             var result = selectedFile.getAbsolutePath();
-            System.out.println(selectedFile.getAbsolutePath());
-            System.out.println(licensePlateApi.getLicensePlate(result));
+            tbBrowsePlate.setText(result);
+            lblLicensePlate.setText(licensePlateApi.getLicensePlate(result));
         }
         else{
-            System.out.println("File is not valid");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Error");
+            alert.setContentText("File is not valid!");
+            alert.showAndWait();
         }
     }
 
