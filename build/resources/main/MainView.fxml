@@ -75,7 +75,6 @@
                   <ListView fx:id="lvAllParkingSpots" layoutX="14.0" layoutY="43.0" onMouseClicked="#viewSelectedAppointment" prefHeight="277.0" prefWidth="236.0" />
                   <RadioButton fx:id="rbtnFreeSpots" layoutX="298.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#getAllParkingSpots" text="Only free spots" />
                   <TableView id="parkingspotTable" layoutX="300.0" layoutY="85.0" prefHeight="200.0" prefWidth="200.0" />
-                   <Button fx:id="btnSocketConnection" layoutX="400" layoutY="325.0" mnemonicParsing="false" onMouseClicked="#connectWebsocket" text="Retry connection"/>
                </children>
             </AnchorPane>
          </content>
