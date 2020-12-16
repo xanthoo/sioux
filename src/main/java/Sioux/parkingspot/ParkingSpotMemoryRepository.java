@@ -29,7 +29,7 @@ public class ParkingSpotMemoryRepository implements IParkingSpotRepository{
     @Override
     public ParkingSpot GetParkingSpotByNumber(int number) {
         for(ParkingSpot spot : parkingSpots){
-            if(spot.getNumber() == number){
+            if(spot.getId() == number){
                 return spot;
             }
         }
