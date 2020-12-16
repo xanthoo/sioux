@@ -66,8 +66,8 @@ public class MainController implements Initializable{
     private DatePicker dpDateSearch;
     @FXML
     private Button btnEditAppointment;
-    @FXML
-    private Button btnCancel;
+//    @FXML
+//    private Button btnCancel;
     @FXML
     private Button btnAddAppointment;
     @FXML
@@ -178,11 +178,11 @@ public class MainController implements Initializable{
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnDeleteAppointment.setDisable(false);
-            btnCancel.setText("Clear");
+//            btnCancel.setText("Clear");
         } else {
             clearInfo();
             btnEditAppointment.setDisable(true);
-            btnCancel.setText("Cancel");
+//            btnCancel.setText("Cancel");
         }
     }
 
@@ -492,7 +492,7 @@ public class MainController implements Initializable{
         btnAddAppointment.setDisable(false);
         btnDeleteAppointment.setDisable(true);
         lvAllAppointments.getSelectionModel().clearSelection();
-        btnCancel.setText("Cancel");
+//        btnCancel.setText("Cancel");
     }
     public void getAllParkingSpots(){
 
