@@ -150,11 +150,13 @@ public class MainController implements Initializable{
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
+                btnSocketConnection.setDisable(true);
             });
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setContentText(e.getMessage() + " Could not connect to websocket.");
             a.show();
+            btnSocketConnection.setDisable(false);
         }
     }
 

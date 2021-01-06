@@ -118,7 +118,7 @@
                         <Font size="16.0" />
                      </font></Label>
                       <TextField fx:id="tfNotes" alignment="TOP_LEFT" disable="true" layoutX="296.0" layoutY="241.0" prefHeight="123.0" prefWidth="252.0" />
-                      <Button fx:id="btnAddAppointment" layoutX="298.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#saveAppointment" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Create">
+                      <Button fx:id="btnAddAppointment" layoutX="296.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#saveAppointment" prefHeight="25.0" prefWidth="81.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Create">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
@@ -170,43 +170,6 @@
                   </children></AnchorPane>
           </content>
       </Tab>
-      <Tab text="Parking spots">
-         <content>
-            <AnchorPane fx:id="apAllParkingSpots" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
-               <children>
-                  <Label layoutX="14.0" layoutY="16.0" text="All parking spots">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Label>
-                  <TableView id="parkingspotTable" fx:id="parkingspotTable" layoutX="3.0" layoutY="44.0" prefHeight="464.0" prefWidth="283.0">
-                     <columns>
-                        <TableColumn id="parkingspotColumn" fx:id="parkingspotColumn" prefWidth="93.60003662109375" text="Parking spot" />
-                        <TableColumn id="availableColumn" fx:id="availableColumn" prefWidth="71.2000732421875" text="Available" />
-                     </columns>
-                  </TableView>
-                  <AnchorPane layoutX="646.0" prefHeight="530.0" prefWidth="280.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);;">
-                     <children>
-                        <Label layoutX="85.0" layoutY="179.0" prefHeight="57.0" prefWidth="110.0" style="-fx-background-color: Black;" text="  SIOUX" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="27.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="64.0" layoutY="236.0" text="TECHNOLOGIES" textAlignment="CENTER">
-                           <font>
-                              <Font name="Arial Rounded MT Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="58.0" layoutY="260.0" prefHeight="38.0" prefWidth="189.0" text="Parking spot application">
-                           <font>
-                              <Font name="Arial Italic" size="15.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
       <Tab text="License plate">
         <content>
           <AnchorPane fx:id="licensePlateAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
@@ -254,6 +217,47 @@
                </children>
             </AnchorPane>
         </content>
+      </Tab>
+      <Tab text="Parking spots">
+         <content>
+            <AnchorPane fx:id="apAllParkingSpots" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
+               <children>
+                  <Label layoutX="14.0" layoutY="16.0" text="All parking spots">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+                  <TableView id="parkingspotTable" fx:id="parkingspotTable" layoutX="3.0" layoutY="44.0" prefHeight="464.0" prefWidth="283.0">
+                     <columns>
+                        <TableColumn id="parkingspotColumn" fx:id="parkingspotColumn" prefWidth="93.60003662109375" text="Parking spot" />
+                        <TableColumn id="availableColumn" fx:id="availableColumn" prefWidth="71.2000732421875" text="Available" />
+                     </columns>
+                  </TableView>
+                  <AnchorPane layoutX="646.0" prefHeight="530.0" prefWidth="280.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);;">
+                     <children>
+                        <Label layoutX="85.0" layoutY="179.0" prefHeight="57.0" prefWidth="110.0" style="-fx-background-color: Black;" text="  SIOUX" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="27.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="64.0" layoutY="236.0" text="TECHNOLOGIES" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="58.0" layoutY="260.0" prefHeight="38.0" prefWidth="189.0" text="Parking spot application">
+                           <font>
+                              <Font name="Arial Italic" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <Button fx:id="btnSocketConnection" layoutX="297.0" layoutY="469.0" mnemonicParsing="false" onMouseClicked="#connectWebsocket" prefHeight="39.0" prefWidth="98.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);;" text="Reconnect" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+               </children>
+            </AnchorPane>
+         </content>
       </Tab>
   </tabs>
 </TabPane>
