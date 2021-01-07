@@ -50,13 +50,19 @@ dependencies {
 
 javafx{
     modules = ['javafx.controls', 'javafx.fxml']
-    version = '11.0.2'
+    version = '15'
 }
 
 shadowJar {
     mergeServiceFiles()
     manifest {
         attributes 'Main-Class': 'Sioux.RunnableMain'
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Sioux.Main'
     }
 }
 

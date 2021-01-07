@@ -2,7 +2,6 @@ package Sioux;
 
 import Sioux.LicensePlateApi.LicensePlateApi;
 import Sioux.LicensePlateApi.LicensePlateApiContext;
-import Sioux.SMS.sendSms;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
