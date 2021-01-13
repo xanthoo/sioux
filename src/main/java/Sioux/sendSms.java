@@ -16,6 +16,6 @@ public class sendSms {
                 new com.twilio.type.PhoneNumber("+13343447824"), parkingSpotRepository.getAvParkingspot().toString()).create();
 
         System.out.println(message.getSid());
-
+//
     }
 }
