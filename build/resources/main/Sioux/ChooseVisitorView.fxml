@@ -14,7 +14,7 @@
             <Font name="System Bold" size="16.0" />
          </font></Text>
       <ListView fx:id="lvVisitors" layoutX="28.0" layoutY="128.0" prefHeight="220.0" prefWidth="521.0" />
-      <Button fx:id="btnSearchVisitor" layoutX="371.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#searchVisitor" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Search">
+      <Button fx:id="btnSearchVisitor" layoutX="371.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#searchVisitor" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Search">
          <font>
             <Font size="13.0" />
          </font></Button>
@@ -23,7 +23,7 @@
          <font>
             <Font size="16.0" />
          </font></Text>
-      <Button fx:id="btnSelectVisitor" layoutX="247.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#selectVisitor" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Select visitor">
+      <Button fx:id="btnSelectVisitor" layoutX="247.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#selectVisitor" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Select visitor">
          <font>
             <Font size="13.0" />
          </font></Button>

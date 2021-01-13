@@ -28,15 +28,15 @@
          <font>
             <Font size="16.0" />
          </font></Text>
-      <Button fx:id="btnSave" layoutX="196.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#saveAppointmentDetails" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Update">
+      <Button fx:id="btnSave" layoutX="196.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#saveAppointmentDetails" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Update">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="btnCancel" layoutX="308.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#cancelEditing" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Cancel">
+      <Button fx:id="btnCancel" layoutX="308.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#cancelEditing" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Cancel">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button layoutX="226.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#selectVisitor" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Select visitor">
+      <Button layoutX="226.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#selectVisitor" prefHeight="29.0" prefWidth="93.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Select visitor">
          <font>
             <Font size="13.0" />
          </font></Button>
