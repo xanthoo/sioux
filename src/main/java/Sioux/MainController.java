@@ -169,13 +169,16 @@ public class MainController implements Initializable{
 
     private void getAllAppointments() {
         ObservableList<Appointment> data = FXCollections.observableList(appointmentController.getAppointments());
+        fillAppointmentTable(data);
+    }
 
+    private void fillAppointmentTable(ObservableList<Appointment> appointments){
         appointmentNameColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("visitor"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("start"));
         subjectColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("subject"));
 
         appointmentTable.setItems(null);
-        appointmentTable.setItems(data);
+        appointmentTable.setItems(appointments);
     }
 
     public void viewSelectedAppointment() {
@@ -266,16 +269,13 @@ public class MainController implements Initializable{
     public void searchForAppointment() {
         if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() == null) {
             ObservableList<Appointment> data = FXCollections.observableList(appointmentController.searchForAppointmentString(tfSearchAppointments.getText()));
-            appointmentTable.setItems(null);
-            appointmentTable.setItems(data);
+            fillAppointmentTable(data);
         } else if (tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null) {
             ObservableList<Appointment> data = FXCollections.observableList(appointmentController.searchForAppointmentByDate(dpDateSearch.getValue().atStartOfDay()));
-            appointmentTable.setItems(null);
-            appointmentTable.setItems(data);
+            fillAppointmentTable(data);
         } else if (!tfSearchAppointments.getText().isEmpty() && dpDateSearch.getValue() != null) {
             ObservableList<Appointment> data = FXCollections.observableList(appointmentController.searchAppointmentStringDate(tfSearchAppointments.getText(), dpDateSearch.getValue().atStartOfDay()));
-            appointmentTable.setItems(null);
-            appointmentTable.setItems(data);
+            fillAppointmentTable(data);
         } else {
             getAllAppointments();
         }
@@ -288,10 +288,7 @@ public class MainController implements Initializable{
 
     private void getAllVisitors() {
         ObservableList<Visitor> data = FXCollections.observableList(visitorController.getVisitorList());
-        visitorNameColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("name"));
-        licensePlateColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("licensePlateNumber"));
-        visitorsTable.setItems(null);
-        visitorsTable.setItems(data);
+        fillVisitorTable(data);
     }
 
     public void viewSelectedVisitor() {
@@ -311,7 +308,6 @@ public class MainController implements Initializable{
             tfPhoneNumber.setText(selectedVisitor.getPhoneNumber());
             lvVisitorAppointments.getItems().removeAll(appointmentTable.getItems());
             lvVisitorAppointments.getItems().addAll(searchAppointmentVisitorID(selectedVisitor.getVisitorID()));
-
         }
     }
 
@@ -390,8 +386,6 @@ public class MainController implements Initializable{
                 }
                 clearInfo();
             }
-            visitorsTable.refresh();
-            appointmentTable.refresh();
             lvVisitorAppointments.refresh();
         } else {
             //No visitor selected
@@ -410,9 +404,7 @@ public class MainController implements Initializable{
             getAllVisitors();
         } else {
             ObservableList<Visitor> data = FXCollections.observableList(visitorController.searchVisitorByName(tfSearchVisitor.getText()));
-            visitorNameColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("name"));
-            visitorsTable.setItems(null);
-            visitorsTable.setItems(data);
+            fillVisitorTable(data);
         }
     }
 
@@ -445,7 +437,13 @@ public class MainController implements Initializable{
 
         parkingspotTable.setItems(null);
         parkingspotTable.setItems(data);
+    }
 
+    private void fillVisitorTable(ObservableList<Visitor> visitors) {
+        visitorNameColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("name"));
+        licensePlateColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("licensePlateNumber"));
+        visitorsTable.setItems(null);
+        visitorsTable.setItems(visitors);
     }
 
     @Override
