@@ -17,11 +17,11 @@
             <font>
                <Font name="System Bold" size="16.0" />
             </font></Label>
-                <Button fx:id="btnSaveVisitor" layoutX="160.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#saveVisitorDetails" prefHeight="29.0" prefWidth="72.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Save">
+                <Button fx:id="btnSaveVisitor" layoutX="160.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#saveVisitorDetails" prefHeight="29.0" prefWidth="72.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Save">
             <font>
                <Font size="13.0" />
             </font></Button>
-                <Button fx:id="btnCancel" layoutX="263.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#cancelEditing" prefHeight="29.0" prefWidth="72.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);" text="Cancel">
+                <Button fx:id="btnCancel" layoutX="263.0" layoutY="297.0" mnemonicParsing="false" onMouseClicked="#cancelEditing" prefHeight="29.0" prefWidth="72.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Cancel">
             <font>
                <Font size="13.0" />
             </font></Button>
