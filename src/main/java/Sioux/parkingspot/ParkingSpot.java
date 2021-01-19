@@ -4,6 +4,7 @@ public class ParkingSpot {
 
     private boolean occupied;
     private int id;
+    private int parkingSpotNumber;
 
     public ParkingSpot(){ }
 
@@ -25,4 +26,11 @@ public class ParkingSpot {
         return "spot: " + id + " | " + occupiedString;
     }
 
+    public int getParkingSpotNumber() {
+        return parkingSpotNumber;
+    }
+
+    public void setParkingSpotNumber(int parkingSpotNumber) {
+        this.parkingSpotNumber = parkingSpotNumber;
+    }
 }

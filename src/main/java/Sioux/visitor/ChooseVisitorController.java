@@ -37,7 +37,7 @@ public class ChooseVisitorController {
 
     public void selectVisitor(){
         selectedVisitor = lvVisitors.getSelectionModel().getSelectedItem();
-        if (selectedVisitor!=null){
+        if (selectedVisitor !=null){
             Stage stage = (Stage) btnSelectVisitor.getScene().getWindow();
             stage.close();
             return;

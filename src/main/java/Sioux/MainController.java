@@ -4,10 +4,10 @@ import Sioux.LicensePlateApi.LicensePlateApi;
 import Sioux.LicensePlateApi.LicensePlateApiContext;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
-import Sioux.appointment.AppointmentMemoryRepository;
+import Sioux.appointment.AppointmentSQLRepository;
 import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
-import Sioux.parkingspot.ParkingSpotMemoryRepository;
+import Sioux.parkingspot.ParkingSpotRepository;
 import Sioux.visitor.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -127,9 +127,9 @@ public class MainController implements Initializable{
 
     public MainController()  {
         appointmentList = new ArrayList<>();
-        appointmentController = new AppointmentController(new AppointmentMemoryRepository());
-        visitorController = new VisitorController(new VisitorMemoryRepository());
-        parkingSpotController = new ParkingSpotController(new ParkingSpotMemoryRepository());
+        appointmentController = new AppointmentController(new AppointmentSQLRepository());
+        visitorController = new VisitorController(new VisitorRepository());
+        parkingSpotController = new ParkingSpotController(new ParkingSpotRepository());
         clientEndPoint = new WebsocketClientEndpoint();
     }
 
@@ -258,6 +258,7 @@ public class MainController implements Initializable{
             alert.setContentText("Are you sure you want to delete the appointment?");
             Optional<ButtonType> action = alert.showAndWait();
             if (action.get() == ButtonType.OK) {
+                appointmentController.deleteAppointment(selectedAppointment);
                 appointmentList.remove(selectedAppointment);
                 appointmentTable.getItems().remove(selectedAppointment);
                 appointmentTable.refresh();
@@ -328,6 +329,7 @@ public class MainController implements Initializable{
                 stage.setTitle("Edit visitor");
                 stage.setScene(new Scene(root1));
                 stage.showAndWait();
+                getAllVisitors();
                 viewSelectedVisitor();
             } catch (IOException e) {
                 e.printStackTrace();

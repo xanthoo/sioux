@@ -18,7 +18,7 @@ public class VisitorMemoryRepository implements IVisitorRepository{
     }
 
     public Visitor getVisitorByID(int id) {
-        for(Visitor visitor: visitorList) {
+        for(Visitor visitor : visitorList) {
             if (visitor.getVisitorID() == id) {
                 return visitor;
             }
@@ -41,7 +41,7 @@ public class VisitorMemoryRepository implements IVisitorRepository{
     }
 
     public Visitor deleteVisitor(int id) {
-        for(Visitor visitor: visitorList){
+        for(Visitor visitor : visitorList){
             if(visitor.getVisitorID() == id){
                 visitorList.remove(visitor);
                 return visitor;
@@ -53,7 +53,7 @@ public class VisitorMemoryRepository implements IVisitorRepository{
 
     public List<Visitor> searchVisitorByName(String name) {
         List<Visitor> foundVisitors = new ArrayList<>();
-        for(Visitor visitor: visitorList) {
+        for(Visitor visitor : visitorList) {
             if (visitor.getName().equals(name)) {
                 foundVisitors.add(visitor);
             }
@@ -62,7 +62,7 @@ public class VisitorMemoryRepository implements IVisitorRepository{
     }
 
     public Visitor getVisitorByLicencePlate(String licencePlate) {
-        for(Visitor visitor: visitorList) {
+        for(Visitor visitor : visitorList) {
             if (visitor.getLicensePlateNumber().equals(licencePlate)) {
                 return visitor;
             }

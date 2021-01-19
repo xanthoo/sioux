@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
     public void UpdateAppointmentById(Appointment updatedAppointment) {
         serviceTarget.path(Integer.toString(updatedAppointment.getId())).request()
                 .accept(MediaType.TEXT_PLAIN)
-                .post(Entity.entity(updatedAppointment, MediaType.APPLICATION_JSON));
+                .put(Entity.entity(updatedAppointment, MediaType.APPLICATION_JSON));
     }
 
     @Override
@@ -79,7 +78,7 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
     }
 
     @Override
-    public void SetCustomersOnAppointmentById(int eventId, List<Visitor> customerToSet) {
+    public void SetCustomersOnAppointmentById(int eventId, List<Visitor> visitorToSet) {
         //not yet implemented in back-end
     }
 

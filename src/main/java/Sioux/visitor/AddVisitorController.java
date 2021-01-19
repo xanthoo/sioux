@@ -1,7 +1,5 @@
 package Sioux.visitor;
 
-import Sioux.visitor.Visitor;
-import Sioux.visitor.VisitorController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

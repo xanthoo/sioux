@@ -2,7 +2,6 @@ package Sioux.appointment;
 
 import Sioux.visitor.Visitor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -74,7 +73,7 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
         return filteredList;
     }
 
-    public void SetCustomersOnAppointmentById(int eventId, List<Visitor> customerToSet) {
+    public void SetCustomersOnAppointmentById(int eventId, List<Visitor> visitorToSet) {
         //TODO
     }
 
