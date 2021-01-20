@@ -64,15 +64,33 @@ public class AddAppointmentController {
 
         if(checkEnteredDataCorrect()){
             appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), startDateTimeOfAppointment(startTime, startDate), visitorOfAppointment));
-            // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
         }
         else{
+            String errorMessage = "Fields incorrect: ";
+            if (subject.equals("")){
+                errorMessage += "\nSubject is empty!";
+            }
+            if (startDate == null){
+                errorMessage += "\nStart date is not filled in!";
+            }
+            if (startTime.equals("")){
+                errorMessage += "\nStart time is empty!";
+            }
+            //check which data is incorrect
+            try{
+                LocalTime.parse(startTime);
+            } catch (Exception e){
+                errorMessage += "\nStart time format is wrong!";
+            }
+            if (visitorName.equals("")){
+                errorMessage += "\nVisitor field is empty!";
+            }
             //Some information is not provided
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
             alert.setHeaderText("Not all information in filled in correctly.");
-            alert.setContentText("Please fill in all information.");
+            alert.setContentText(errorMessage);
             alert.showAndWait();
         }
     }

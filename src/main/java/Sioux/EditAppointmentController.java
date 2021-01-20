@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.security.auth.Subject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -83,11 +84,30 @@ public class EditAppointmentController {
             cancelEditing();
         }
         else{
+            String errorMessage = "Fields incorrect: ";
+            if (subject.equals("")){
+                errorMessage += "\n Subject is empty!";
+            }
+            if (startDate == null){
+                errorMessage += "\n Start date is not filled in!";
+            }
+            if (startTime.equals("")){
+                errorMessage += "\n Start time is empty!";
+            }
+            //check which data is incorrect
+            try{
+                LocalTime.parse(startTime);
+            } catch (Exception e){
+                errorMessage += "\n Start time format is wrong!";
+            }
+            if (visitorName.equals("")){
+                errorMessage += "\n Visitor field is empty!";
+            }
             //Some information is not provided
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
             alert.setHeaderText("Not all information in filled in correctly.");
-            alert.setContentText("Please fill in all information.");
+            alert.setContentText(errorMessage);
             alert.showAndWait();
         }
     }
@@ -126,9 +146,6 @@ public class EditAppointmentController {
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !startTime.equals("") && !visitorName.equals("")){
-            return true;
-        }
-        return false;
+        return !subject.equals("") && !startTime.equals("") && !visitorName.equals("");
     }
 }

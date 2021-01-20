@@ -48,11 +48,25 @@ public class AddVisitorController {
             cancelEditing();
         }
         else{
+            String errorMessage = "Fields incorrect: ";
+            if (nameVisitor.equals("")){
+             errorMessage += "\nName of the visitor!";
+            }
+            if (licenseplateNumber.equals("")){
+                errorMessage += "\nLicenseplate field!";
+            }
+            if (phoneNumber.equals("")){
+                errorMessage += "\nPhone number!";
+            }
+            if (visitorNotes.equals("")){
+                errorMessage += "\nNotes!";
+            }
+
             //Some information is not provided
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
             alert.setHeaderText("Not all information in filled in correctly.");
-            alert.setContentText("Please fill in all information.");
+            alert.setContentText(errorMessage);
             alert.showAndWait();
         }
     }
