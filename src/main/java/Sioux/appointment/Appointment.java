@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public class Appointment {
 
@@ -14,18 +13,17 @@ public class Appointment {
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @JsonSerialize(using = JsonDateSerializer.class)
     private LocalDateTime start;
-    private Visitor visitor;
-    private Set<Visitor> visitors;
+    private Visitor customer;
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @JsonSerialize(using = JsonDateSerializer.class)
     private LocalDateTime end;
 
 
-    public Appointment(String subject, int id, LocalDateTime start, Visitor visitor) {
+    public Appointment(String subject, int id, LocalDateTime start, Visitor customer) {
         this.subject = subject;
         this.id = id;
         this.start = start;
-        this.visitor = visitor;
+        this.customer = customer;
     }
 
     public Appointment(){}
@@ -54,12 +52,12 @@ public class Appointment {
         this.start = start;
     }
 
-    public Visitor getVisitor() {
-        return visitor;
+    public Visitor getCustomer() {
+        return customer;
     }
 
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
+    public void setCustomer(Visitor customer) {
+        this.customer = customer;
     }
 
     /*public List<CustomerDTO> getCustomers() {
@@ -72,17 +70,7 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return visitor +  " | " + subject + " |" + start;
-    }
-
-    public Set<Visitor> getCustomers() {
-        //customers.add(customer);
-        return visitors;
-    }
-
-    public void setCustomers(Set<Visitor> visitors) {
-        this.visitors = visitors;
-        this.visitor = visitors.stream().findFirst().get();
+        return customer +  " | " + subject + " |" + start;
     }
 
     public LocalDateTime getEnd() {

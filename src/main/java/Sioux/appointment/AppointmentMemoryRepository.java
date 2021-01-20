@@ -32,7 +32,7 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
             if (a.getId() == updatedAppointment.getId()){
                 a.setStart(updatedAppointment.getStart());
                 a.setSubject(updatedAppointment.getSubject());
-                a.setVisitor(updatedAppointment.getVisitor());
+                a.setCustomer(updatedAppointment.getCustomer());
                 appointmentList.set(appointmentList.indexOf(a), a);
             }
         }
@@ -66,7 +66,7 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
     public List<Appointment> GetAppointmentsByCustomerId(int visitorId) {
         List<Appointment> filteredList= new ArrayList<>();
         for (Appointment a : appointmentList){
-            if (a.getVisitor().getVisitorID() == visitorId){
+            if (a.getCustomer().getVisitorID() == visitorId){
                 filteredList.add(a);
             }
         }
@@ -80,7 +80,7 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
     public List<Appointment> searchForAppointmentString(String searchTerm) {
         List<Appointment> filteredList= new ArrayList<>();
         for (Appointment a : appointmentList)
-            if (a.getSubject().contains(searchTerm) || a.getVisitor().getName().contains(searchTerm)){
+            if (a.getSubject().contains(searchTerm) || a.getCustomer().getName().contains(searchTerm)){
                 filteredList.add(a);
             }
         return filteredList;
@@ -89,7 +89,7 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
     public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate) {
         List<Appointment> filteredList = new ArrayList<>();
         for (Appointment a : appointmentList){
-            if (a.getSubject().contains(term) || a.getVisitor().getName().contains(term)){
+            if (a.getSubject().contains(term) || a.getCustomer().getName().contains(term)){
                 if (a.getStart().equals(searchDate)){
                     filteredList.add(a);
                 }
@@ -99,6 +99,6 @@ public class AppointmentMemoryRepository implements IAppointmentRepository {
     }
 
     public List<Appointment> searchEventsVisitorID(int id) {
-        return appointmentList.stream().filter(e -> e.getVisitor().getVisitorID() == id).collect(Collectors.toList());
+        return appointmentList.stream().filter(e -> e.getCustomer().getVisitorID() == id).collect(Collectors.toList());
     }
 }

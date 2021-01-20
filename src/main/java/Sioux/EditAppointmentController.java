@@ -49,8 +49,8 @@ public class EditAppointmentController {
         tfSubject.setText(appointment.getSubject());
         tfStartDate.setText(getStartTimeString(appointment.getStart().toString()));
         dpStartDate.setValue(getStartDate(appointment.getStart()));
-        tfVisitor.setText(appointment.getVisitor().getName());
-        visitorOfAppointment = selectedEvent.getVisitor();
+        tfVisitor.setText(appointment.getCustomer().getName());
+        visitorOfAppointment = selectedEvent.getCustomer();
         this.appointmentController = appointmentController;
         this.visitorController = visitorController;
     }

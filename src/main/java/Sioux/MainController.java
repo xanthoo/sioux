@@ -173,7 +173,7 @@ public class MainController implements Initializable{
     }
 
     private void fillAppointmentTable(ObservableList<Appointment> appointments){
-        appointmentNameColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("visitor"));
+        appointmentNameColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customer"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("start"));
         subjectColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("subject"));
 
@@ -185,7 +185,7 @@ public class MainController implements Initializable{
         selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
         if (selectedAppointment != null) {
             appointmentController.getAppointmentById(selectedAppointment.getId());
-            tfVisitorName.setText(selectedAppointment.getVisitor().getName());
+            tfVisitorName.setText(selectedAppointment.getCustomer().getName());
             tfStartDate.setText(selectedAppointment.getStart().toString());
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);

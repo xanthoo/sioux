@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class AppointmentSQLRepository implements IAppointmentRepository {
@@ -49,7 +50,8 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
 
     @Override
     public List<Appointment> GetAppointmentsByDate(LocalDateTime date) {
-        Response response =  serviceTarget.queryParam("Date",date).request()
+        DateTimeFormatter formatterForSearching = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Response response =  serviceTarget.queryParam("Date",date.format(formatterForSearching)).request()
                 .accept(MediaType.APPLICATION_JSON).get();
         GenericType<List<Appointment>> genericType = new GenericType<>(){};
         return response.readEntity(genericType);
@@ -79,22 +81,29 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
 
     @Override
     public void SetCustomersOnAppointmentById(int eventId, List<Visitor> visitorToSet) {
-        //not yet implemented in back-end
+        //Not needed
     }
 
     @Override
     public List<Appointment> searchForAppointmentString(String searchTerm){
-        return null;
-        //not yet implemented in back-end
+        Response response =  serviceTarget.queryParam("Customer", searchTerm).request()
+                .accept(MediaType.APPLICATION_JSON).get();
+        GenericType<List<Appointment>> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 
     @Override
     public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate){
-        return null;
-        //not yet implemented in back-end
+        Response response =  serviceTarget.queryParam("Customer", term).queryParam("Date", searchDate).request()
+                .accept(MediaType.APPLICATION_JSON).get();
+        GenericType<List<Appointment>> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 
     public List<Appointment> searchEventsVisitorID(int id) {
-        return null;
+        Response response =  serviceTarget.queryParam("Customer", id).request()
+                .accept(MediaType.APPLICATION_JSON).get();
+        GenericType<List<Appointment>> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 }
