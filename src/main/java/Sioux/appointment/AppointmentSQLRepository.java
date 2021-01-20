@@ -94,7 +94,8 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
 
     @Override
     public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate){
-        Response response =  serviceTarget.queryParam("Customer", term).queryParam("Date", searchDate).request()
+        DateTimeFormatter formatterForSearching = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Response response =  serviceTarget.queryParam("Customer", term).queryParam("Date", searchDate.format(formatterForSearching)).request()
                 .accept(MediaType.APPLICATION_JSON).get();
         GenericType<List<Appointment>> genericType = new GenericType<>(){};
         return response.readEntity(genericType);

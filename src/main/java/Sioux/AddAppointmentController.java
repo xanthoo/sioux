@@ -63,7 +63,6 @@ public class AddAppointmentController {
         startDate = dpStartDate.getValue();
 
         if(checkEnteredDataCorrect()){
-
             appointmentController.createAppointment(new Appointment(subject, appointmentController.getAppointments().size(), startDateTimeOfAppointment(startTime, startDate), visitorOfAppointment));
             // appointmentController.updateAppointment(new Appointment(subject, selectedEvent.getId(), LocalDateTime.parse(startDate), LocalDate.parse(endDate), selectedEvent.getVisitor()));
             cancelEditing();
