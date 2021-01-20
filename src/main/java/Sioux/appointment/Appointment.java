@@ -1,25 +1,32 @@
 package Sioux.appointment;
 
 import Sioux.visitor.Visitor;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Appointment {
 
     private  String subject;
     private int id;
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private LocalDateTime start;
-    private Visitor visitor;
+    private Visitor customer;
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
+    private LocalDateTime end;
 
 
-    public Appointment(String subject, int id, LocalDateTime start, Visitor visitor) {
+    public Appointment(String subject, int id, LocalDateTime start, Visitor customer) {
         this.subject = subject;
         this.id = id;
         this.start = start;
-        this.visitor = visitor;
+        this.customer = customer;
     }
+
+    public Appointment(){}
 
     public String getSubject() {
         return subject;
@@ -45,12 +52,12 @@ public class Appointment {
         this.start = start;
     }
 
-    public Visitor getVisitor() {
-        return visitor;
+    public Visitor getCustomer() {
+        return customer;
     }
 
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
+    public void setCustomer(Visitor customer) {
+        this.customer = customer;
     }
 
     /*public List<CustomerDTO> getCustomers() {
@@ -63,6 +70,14 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return visitor +  " | " + subject + " |" + start;
+        return customer +  " | " + subject + " |" + start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 }

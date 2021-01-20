@@ -43,7 +43,7 @@ public class VisitorRepository implements IVisitorRepository{
     public void updateVisitor(Visitor updatedVisitor) {
         serviceTarget.path(Integer.toString(updatedVisitor.getVisitorID())).request()
                 .accept(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(updatedVisitor, MediaType.APPLICATION_JSON));
+                .put(Entity.entity(updatedVisitor, MediaType.APPLICATION_JSON));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class VisitorRepository implements IVisitorRepository{
 
     @Override
     public List<Visitor> searchVisitorByName(String name) {
-        Response response =  serviceTarget.queryParam("name",name).request()
+        Response response =  serviceTarget.path("/name").queryParam("name",name).request()
                 .accept(MediaType.APPLICATION_JSON).get();
         GenericType<List<Visitor>> genericType = new GenericType<>(){};
         return response.readEntity(genericType);

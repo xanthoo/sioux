@@ -17,12 +17,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.springframework.cglib.core.Local;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 public class AddAppointmentController {
 
@@ -129,12 +129,16 @@ public class AddAppointmentController {
         stage.close();
     }
     private boolean checkEnteredDataCorrect(){
+        LocalDate today = LocalDate.now();
+        LocalTime time;
+
+
         try{
-            LocalTime.parse(startTime);
+            time =  LocalTime.parse(startTime);
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !startTime.equals("") && !startDate.equals(null) && !visitorName.equals("")){
+        if(!subject.equals("") && !startTime.equals("") && startDate!= null && !startDate.isBefore(today) && !time.isBefore(LocalTime.now()) && !visitorName.equals("")){
             return true;
         }
         return false;

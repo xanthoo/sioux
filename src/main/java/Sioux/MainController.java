@@ -5,9 +5,11 @@ import Sioux.LicensePlateApi.LicensePlateApiContext;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
 import Sioux.appointment.AppointmentMemoryRepository;
+import Sioux.appointment.AppointmentSQLRepository;
 import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
 import Sioux.parkingspot.ParkingSpotMemoryRepository;
+import Sioux.parkingspot.ParkingSpotRepository;
 import Sioux.visitor.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -127,9 +129,9 @@ public class MainController implements Initializable{
 
     public MainController()  {
         appointmentList = new ArrayList<>();
-        appointmentController = new AppointmentController(new AppointmentMemoryRepository());
-        visitorController = new VisitorController(new VisitorMemoryRepository());
-        parkingSpotController = new ParkingSpotController(new ParkingSpotMemoryRepository());
+        appointmentController = new AppointmentController(new AppointmentSQLRepository());
+        visitorController = new VisitorController(new VisitorRepository());
+        parkingSpotController = new ParkingSpotController(new ParkingSpotRepository());
         clientEndPoint = new WebsocketClientEndpoint();
     }
 
@@ -173,7 +175,7 @@ public class MainController implements Initializable{
     }
 
     private void fillAppointmentTable(ObservableList<Appointment> appointments){
-        appointmentNameColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("visitor"));
+        appointmentNameColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customer"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalDateTime>("start"));
         subjectColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("subject"));
 
@@ -185,8 +187,8 @@ public class MainController implements Initializable{
         selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
         if (selectedAppointment != null) {
             appointmentController.getAppointmentById(selectedAppointment.getId());
-            tfVisitorName.setText(selectedAppointment.getVisitor().getName());
-            tfStartDate.setText(selectedAppointment.getStart().toString());
+            tfVisitorName.setText(selectedAppointment.getCustomer().getName());
+            tfStartDate.setText(selectedAppointment.getStart().toString().replace("T",""));
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnDeleteAppointment.setDisable(false);
@@ -258,6 +260,7 @@ public class MainController implements Initializable{
             alert.setContentText("Are you sure you want to delete the appointment?");
             Optional<ButtonType> action = alert.showAndWait();
             if (action.get() == ButtonType.OK) {
+                appointmentController.deleteAppointment(selectedAppointment);
                 appointmentList.remove(selectedAppointment);
                 appointmentTable.getItems().remove(selectedAppointment);
                 appointmentTable.refresh();
@@ -328,6 +331,7 @@ public class MainController implements Initializable{
                 stage.setTitle("Edit visitor");
                 stage.setScene(new Scene(root1));
                 stage.showAndWait();
+                getAllVisitors();
                 viewSelectedVisitor();
             } catch (IOException e) {
                 e.printStackTrace();

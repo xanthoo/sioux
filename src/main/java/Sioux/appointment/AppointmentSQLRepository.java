@@ -12,8 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class AppointmentSQLRepository implements IAppointmentRepository {
@@ -45,12 +45,13 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
     public void UpdateAppointmentById(Appointment updatedAppointment) {
         serviceTarget.path(Integer.toString(updatedAppointment.getId())).request()
                 .accept(MediaType.TEXT_PLAIN)
-                .post(Entity.entity(updatedAppointment, MediaType.APPLICATION_JSON));
+                .put(Entity.entity(updatedAppointment, MediaType.APPLICATION_JSON));
     }
 
     @Override
     public List<Appointment> GetAppointmentsByDate(LocalDateTime date) {
-        Response response =  serviceTarget.queryParam("Date",date).request()
+        DateTimeFormatter formatterForSearching = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Response response =  serviceTarget.queryParam("Date",date.format(formatterForSearching)).request()
                 .accept(MediaType.APPLICATION_JSON).get();
         GenericType<List<Appointment>> genericType = new GenericType<>(){};
         return response.readEntity(genericType);
@@ -79,23 +80,31 @@ public class AppointmentSQLRepository implements IAppointmentRepository {
     }
 
     @Override
-    public void SetCustomersOnAppointmentById(int eventId, List<Visitor> customerToSet) {
-        //not yet implemented in back-end
+    public void SetCustomersOnAppointmentById(int eventId, List<Visitor> visitorToSet) {
+        //Not needed
     }
 
     @Override
     public List<Appointment> searchForAppointmentString(String searchTerm){
-        return null;
-        //not yet implemented in back-end
+        Response response =  serviceTarget.queryParam("Customer", searchTerm).request()
+                .accept(MediaType.APPLICATION_JSON).get();
+        GenericType<List<Appointment>> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 
     @Override
     public List<Appointment> searchAppointmentStringDate(String term, LocalDateTime searchDate){
-        return null;
-        //not yet implemented in back-end
+        DateTimeFormatter formatterForSearching = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Response response =  serviceTarget.queryParam("Customer", term).queryParam("Date", searchDate.format(formatterForSearching)).request()
+                .accept(MediaType.APPLICATION_JSON).get();
+        GenericType<List<Appointment>> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 
     public List<Appointment> searchEventsVisitorID(int id) {
-        return null;
+        Response response =  serviceTarget.queryParam("Customer", id).request()
+                .accept(MediaType.APPLICATION_JSON).get();
+        GenericType<List<Appointment>> genericType = new GenericType<>(){};
+        return response.readEntity(genericType);
     }
 }

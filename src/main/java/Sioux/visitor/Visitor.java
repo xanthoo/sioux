@@ -19,7 +19,7 @@ public class Visitor {
     @JsonProperty("mail")
     private String notes;
 
-    public  Visitor(){}
+    public Visitor(){}
 
     public Visitor(int visitorID, String name, String licensePlateNumber, String phoneNumber, String notes) {
         this.visitorID = visitorID;
