@@ -4,9 +4,11 @@ import Sioux.LicensePlateApi.LicensePlateApi;
 import Sioux.LicensePlateApi.LicensePlateApiContext;
 import Sioux.appointment.Appointment;
 import Sioux.appointment.AppointmentController;
+import Sioux.appointment.AppointmentMemoryRepository;
 import Sioux.appointment.AppointmentSQLRepository;
 import Sioux.parkingspot.ParkingSpot;
 import Sioux.parkingspot.ParkingSpotController;
+import Sioux.parkingspot.ParkingSpotMemoryRepository;
 import Sioux.parkingspot.ParkingSpotRepository;
 import Sioux.visitor.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -186,7 +188,7 @@ public class MainController implements Initializable{
         if (selectedAppointment != null) {
             appointmentController.getAppointmentById(selectedAppointment.getId());
             tfVisitorName.setText(selectedAppointment.getCustomer().getName());
-            tfStartDate.setText(selectedAppointment.getStart().toString());
+            tfStartDate.setText(selectedAppointment.getStart().toString().replace("T",""));
             tfNotes.setText(selectedAppointment.getSubject());
             btnEditAppointment.setDisable(false);
             btnDeleteAppointment.setDisable(false);
