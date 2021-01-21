@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.regex.Pattern;
+
 public class AddVisitorController {
 
     @FXML
@@ -39,11 +41,12 @@ public class AddVisitorController {
     }
 
     public void saveVisitorDetails() {
+        String text = null;
         nameVisitor = tfNameVisitor.getText();
         licenseplateNumber = tfLicenseplateNumber.getText();
         phoneNumber = tfPhoneNumber.getText();
         visitorNotes = tfVisitorNotes.getText();
-        if(checkEnteredDataCorrect()) {
+        if(checkEnteredDataCorrect() && phoneNumber.matches("[0-9]+")) {
             visitorController.addVisitor(new Visitor(visitorController.getVisitorList().size(),nameVisitor, licenseplateNumber, phoneNumber, visitorNotes));
             cancelEditing();
         }
