@@ -141,11 +141,15 @@ public class EditAppointmentController {
         stage.close();
     }
     private boolean checkEnteredDataCorrect(){
+        LocalDate today = LocalDate.now();
         try{
             LocalTime.parse(startTime);
         } catch (Exception e){
             return false;
         }
-        return !subject.equals("") && !startTime.equals("") && !visitorName.equals("");
+        if(!subject.equals("") && !startTime.equals("") && startDate!= null && !startDate.isBefore(today) && !visitorName.equals("")){
+            return true;
+        }
+        return false;
     }
 }

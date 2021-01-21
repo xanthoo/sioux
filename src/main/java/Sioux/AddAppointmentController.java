@@ -130,15 +130,12 @@ public class AddAppointmentController {
     }
     private boolean checkEnteredDataCorrect(){
         LocalDate today = LocalDate.now();
-        LocalTime time;
-
-
         try{
-            time =  LocalTime.parse(startTime);
+            LocalTime.parse(startTime);
         } catch (Exception e){
             return false;
         }
-        if(!subject.equals("") && !startTime.equals("") && startDate!= null && !startDate.isBefore(today) && !time.isBefore(LocalTime.now()) && !visitorName.equals("")){
+        if(!subject.equals("") && !startTime.equals("") && startDate!= null && !startDate.isBefore(today) && !visitorName.equals("")){
             return true;
         }
         return false;
