@@ -46,7 +46,7 @@ public class AddVisitorController {
         licenseplateNumber = tfLicenseplateNumber.getText();
         phoneNumber = tfPhoneNumber.getText();
         visitorNotes = tfVisitorNotes.getText();
-        if(checkEnteredDataCorrect() && phoneNumber.matches("[0-9]+")) {
+        if(checkEnteredDataCorrect() && phoneNumber.matches("[0-9 ]+")) {
             visitorController.addVisitor(new Visitor(visitorController.getVisitorList().size(),nameVisitor, licenseplateNumber, phoneNumber, visitorNotes));
             cancelEditing();
         }

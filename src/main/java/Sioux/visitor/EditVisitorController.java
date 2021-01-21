@@ -49,7 +49,7 @@ public class EditVisitorController {
         phoneNumber = tfPhoneNumber.getText();
         visitorNotes = tfVisitorNotes.getText();
 
-        if(checkEnteredDataCorrect() && phoneNumber.matches("[0-9]+")){
+        if(checkEnteredDataCorrect() && phoneNumber.matches("[0-9 ]+")){
             visitorController.updateVisitor(new Visitor(selectedVisitor.getVisitorID(), nameVisitor, licenseplateNumber, phoneNumber, visitorNotes));
             cancelEditing();
         }
