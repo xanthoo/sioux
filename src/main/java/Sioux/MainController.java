@@ -129,7 +129,7 @@ public class MainController implements Initializable{
 
     public MainController()  {
         appointmentList = new ArrayList<>();
-        appointmentController = new AppointmentController(new AppointmentSQLRepository());
+        appointmentController = new AppointmentController(new AppointmentSQLRepository() );
         visitorController = new VisitorController(new VisitorRepository());
         parkingSpotController = new ParkingSpotController(new ParkingSpotRepository());
         clientEndPoint = new WebsocketClientEndpoint();
@@ -216,6 +216,7 @@ public class MainController implements Initializable{
                 stage.setTitle("Edit appointment");
                 stage.setScene(new Scene(root1));
                 stage.showAndWait();
+                getAllAppointments();
                 viewSelectedAppointment();
                 appointmentTable.refresh();
             } catch (IOException e) {
@@ -382,6 +383,8 @@ public class MainController implements Initializable{
                 //Deleting all the appointments of the visitor
                 List<Appointment> appointmentsToDelete = appointmentController.searchEventsVisitorID(selectedVisitor.getVisitorID());
                 for (Appointment p : appointmentsToDelete) {
+                    //selectedAppointment = p;
+                    //deleteAppointment();
                     lvVisitorAppointments.getItems().removeAll(appointmentTable.getItems());
                     appointmentController.deleteAppointment(p);
                     appointmentList.remove(p);
