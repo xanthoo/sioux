@@ -391,6 +391,8 @@ public class MainController implements Initializable{
                 clearInfo();
             }
             lvVisitorAppointments.refresh();
+            getAllVisitors();
+            getAllAppointments();
         } else {
             //No visitor selected
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
