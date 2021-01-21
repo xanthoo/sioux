@@ -69,7 +69,7 @@
                         <TableView fx:id="visitorsTable" layoutX="14.0" layoutY="38.0" onMouseClicked="#viewSelectedVisitor" prefHeight="428.0" prefWidth="187.0">
                           <columns>
                             <TableColumn fx:id="visitorNameColumn" prefWidth="75.0" text="Name" />
-                              <TableColumn fx:id="licensePlateColumn" prefWidth="91.0" text="License Plate" />
+                              <TableColumn fx:id="licensePlateColumn" prefWidth="111.0" text="License Plate" />
                           </columns>
                         </TableView>
                      </children>
@@ -101,7 +101,7 @@
               <AnchorPane fx:id="apAllAppointments" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
                   <children>
                       <TextField fx:id="tfSearchAppointments" layoutX="428.0" layoutY="58.0" prefHeight="25.0" prefWidth="94.0" />
-                      <Label layoutX="41.0" layoutY="13.0" text="All appointments">
+                      <Label layoutX="70.0" layoutY="13.0" text="All appointments">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
@@ -128,7 +128,7 @@
                         <Font size="13.0" />
                      </font></Button>
                       <DatePicker fx:id="dpDateSearch" layoutX="276.0" layoutY="58.0" prefHeight="25.0" prefWidth="147.0" />
-                      <Button fx:id="btnDeleteAppointment" layoutX="53.0" layoutY="470.0" mnemonicParsing="false" onMouseClicked="#deleteAppointment" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Delete appointment">
+                      <Button fx:id="btnDeleteAppointment" layoutX="64.0" layoutY="473.0" mnemonicParsing="false" onMouseClicked="#deleteAppointment" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Delete appointment">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
@@ -171,11 +171,11 @@
                         <Font size="10.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="appointmentTable" layoutX="20.0" layoutY="53.0" onMouseClicked="#viewSelectedAppointment" prefHeight="411.0" prefWidth="199.0">
+                  <TableView fx:id="appointmentTable" layoutX="2.0" layoutY="53.0" onMouseClicked="#viewSelectedAppointment" prefHeight="411.0" prefWidth="257.0">
                     <columns>
                       <TableColumn fx:id="appointmentNameColumn" prefWidth="63.0" text="Name" />
                       <TableColumn fx:id="subjectColumn" prefWidth="75.0" text="Subject" />
-                        <TableColumn fx:id="dateColumn" prefWidth="58.0" text="Date" />
+                        <TableColumn fx:id="dateColumn" prefWidth="118.0" text="Date" />
                     </columns>
                   </TableView>
                   </children></AnchorPane>
@@ -217,54 +217,6 @@
                </children>
             </AnchorPane>
          </content>
-      </Tab>
-      <Tab text="License plate">
-        <content>
-          <AnchorPane fx:id="licensePlateAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right top, #babdc2, #c7cace, #d4d7da, #e2e4e6, #f0f1f2);">
-               <children>
-                  <AnchorPane layoutX="646.0" prefHeight="530.0" prefWidth="280.0" style="-fx-background-color: linear-gradient(to right top, #0db6e5, #00c7e6, #00d6d6, #00e2b6, #0feb8b);;">
-                     <children>
-                        <Label layoutX="85.0" layoutY="179.0" prefHeight="57.0" prefWidth="110.0" style="-fx-background-color: Black;" text="  SIOUX" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="27.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="64.0" layoutY="236.0" text="TECHNOLOGIES" textAlignment="CENTER">
-                           <font>
-                              <Font name="Arial Rounded MT Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="58.0" layoutY="260.0" prefHeight="38.0" prefWidth="189.0" text="Parking spot application">
-                           <font>
-                              <Font name="Arial Italic" size="15.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <TextField fx:id="tbBrowsePlate" layoutX="158.0" layoutY="54.0" prefHeight="25.0" prefWidth="248.0">
-                     <font>
-                        <Font size="10.0" />
-                     </font></TextField>
-                  <Button fx:id="btnBrowse" layoutX="238.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#browseLicensePlate" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: linear-gradient(to top, #8fd1f4, #add8f9, #c7dffc, #dce8fd, #eef1fe, #eef1fe, #eef1fe, #eef1fe, #dce8fd, #c7dffc, #add8f9, #8fd1f4);" text="Browse">
-                     <font>
-                        <Font size="13.0" />
-                     </font></Button>
-                  <Label layoutX="217.0" layoutY="14.0" text="Choose licenseplate">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Label>
-                  <Label fx:id="lblLicensePlate" layoutX="391.0" layoutY="207.0" prefHeight="17.0" prefWidth="105.0">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font></Label>
-                  <Label layoutX="194.0" layoutY="205.0" text="License plate number:">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-        </content>
       </Tab>
   </tabs>
 </TabPane>

@@ -129,9 +129,9 @@ public class MainController implements Initializable{
 
     public MainController()  {
         appointmentList = new ArrayList<>();
-        appointmentController = new AppointmentController(new AppointmentSQLRepository());
-        visitorController = new VisitorController(new VisitorRepository());
-        parkingSpotController = new ParkingSpotController(new ParkingSpotRepository());
+        appointmentController = new AppointmentController(new AppointmentMemoryRepository());
+        visitorController = new VisitorController(new VisitorMemoryRepository());
+        parkingSpotController = new ParkingSpotController(new ParkingSpotMemoryRepository());
         clientEndPoint = new WebsocketClientEndpoint();
     }
 
